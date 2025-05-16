@@ -17,7 +17,8 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        return view('producto.index');
+        $productos = Producto::with(['categorias.caracteristica','marca.caracteristica'])->latest()->get();
+        return view('producto.index', compact('productos'));
     }
 
     /**
@@ -48,7 +49,7 @@ class ProductoController extends Controller
             DB::beginTransaction();
             //Tabla producto
             $producto = new Producto();
-            if($request->hasFile('img_path')){
+            if($request->hasFile('imagen_path')){
                 $name = $producto->hanbleUploadImage($request->file('imagen_path'));
             }else{
                 $name =null;
@@ -68,13 +69,15 @@ class ProductoController extends Controller
             //Tabla categoria-producto
             $categorias = $request->get('categorias');
             $producto->categorias()->attach($categorias);
-
+            DB::commit();
 
         }catch(Exception $e){
+           
             DB::rollBack();
-        }
 
-        dd($e);
+        }
+      
+
 
         return redirect()->route('productos.index')->with('success', 'producto registrado');
     }
@@ -90,9 +93,21 @@ class ProductoController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit (Producto $producto)
     {
-        //
+         $marcas = Marca::join('caracteristicas as c', 'marcas.caracteristica_id','=','c.id')
+        ->select('marcas.id as id','c.nombre as nombre')
+        ->where('c.estado',1)
+        ->get();
+
+        $categorias = Categoria::join('caracteristicas as c', 'categorias.caracteristica_id','=','c.id')
+        ->select('categorias.id as id','c.nombre as nombre')
+        ->where('c.estado',1)
+        ->get();
+
+        return view('producto.edit',compact('producto', 'marcas', 'categorias'));
+
+
     }
 
     /**
