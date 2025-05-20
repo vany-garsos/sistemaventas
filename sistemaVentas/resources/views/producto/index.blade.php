@@ -78,21 +78,32 @@
                                     @endif
                                 </td>
                                 <td>
+                                    <!--BOTONES DE ACCION--->
                                     <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                        <form action="{{route('productos.edit', ['producto' => $producto])}}" method="GET">
+                                         <!--Editar-->
+                                        <form action="{{ route('productos.edit', ['producto' => $producto]) }}"
+                                            method="GET">
                                             <button type="submit" class="btn btn-warning">Editar</button>
                                         </form>
+                                        <!--Ver-->
                                         <button type="button" class="btn btn-info" data-bs-toggle="modal"
-                                            data-bs-target="#openProduct-{{$producto->id}}">Ver</button>
-                                        <button type="submit" class="btn btn-danger" data-bs-toggle="modal"
-                                            data-bs-target="">Eliminar</button>
+                                            data-bs-target="#openProduct-{{ $producto->id }}">Ver</button>
+
+                                        <!--Eliminar / restaurar-->
+                                        @if ($producto->estado == 1)
+                                            <button type="submit" class="btn btn-danger" data-bs-toggle="modal"
+                                                data-bs-target="#confirmModal-{{ $producto->id }}">Eliminar</button>
+                                        @else
+                                            <button type="submit" class="btn btn-success" data-bs-toggle="modal"
+                                                data-bs-target="#confirmModal-{{ $producto->id }}">Restaurar</button>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>
 
-                            <!-- Modal -->
-                            <div class="modal fade" id="openProduct-{{$producto->id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
-                                aria-hidden="true">
+                            <!-- Modal ver producto-->
+                            <div class="modal fade" id="openProduct-{{ $producto->id }}" tabindex="-1"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-scrollable">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -102,21 +113,25 @@
                                         </div>
                                         <div class="modal-body">
                                             <div class="row mb-3">
-                                                <label><span class="fw-bolder">Descripcion: </span>{{$producto->descripcion=='' ? 'No existe descripcion' : $producto->descripcion}}</label>
+                                                <label><span class="fw-bolder">Descripcion:
+                                                    </span>{{ $producto->descripcion == '' ? 'No existe descripcion' : $producto->descripcion }}</label>
                                             </div>
                                             <div class="row mb-3">
-                                                <label><span class="fw-bolder">Fecha de vencimiento: </span>{{$producto->fecha_vencimiento=='' ? 'No tiene' : $producto->fecha_vencimiento}}</label>
+                                                <label><span class="fw-bolder">Fecha de vencimiento:
+                                                    </span>{{ $producto->fecha_vencimiento == '' ? 'No tiene' : $producto->fecha_vencimiento }}</label>
                                             </div>
                                             <div class="row mb-3">
-                                                <label><span class="fw-bolder">Stock:</span>{{$producto->stock}}</label>
+                                                <label><span class="fw-bolder">Stock:</span>{{ $producto->stock }}</label>
                                             </div>
                                             <div class="row mb-3">
                                                 <label class="fw-bolder">Imagen: </label>
                                                 <div>
                                                     @if ($producto->imagen_path != null)
-                                                        <img class="img-fluid img-thumbnail" src="{{ Storage::url('public/productos/'.$producto->imagen_path)}}" alt="{{$producto->nombre}}">
+                                                        <img class="img-fluid img-thumbnail"
+                                                            src="{{ Storage::url('public/productos/' . $producto->imagen_path) }}"
+                                                            alt="{{ $producto->nombre }}">
                                                     @else
-                                                        <label>{{$producto->nombre}}</label>
+                                                        <label>{{ $producto->nombre }}</label>
                                                     @endif
                                                 </div>
                                             </div>
@@ -124,6 +139,37 @@
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
                                                 data-bs-dismiss="modal">Cerrar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- Modal eliminar producto-->
+                            <div class="modal fade" id="confirmModal-{{ $producto->id }}" tabindex="-1"
+                                aria-labelledby="confirmModal" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">
+                                                {{ $producto->estado == 1 ? 'Eliminar producto' : 'Restaurar producto' }}
+                                            </h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            {{ $producto->estado == 1 ? '¿Seguro deseas eliminar este producto?' : '¿Deseas restaurar el producto?' }}
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Cerrar</button>
+
+                                            <form action="{{ route('productos.destroy', $producto->id) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                    class="btn btn-danger">{{ $producto->estado == 1 ? 'Sí, eliminar' : 'Sí, restaurar' }}</button>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>

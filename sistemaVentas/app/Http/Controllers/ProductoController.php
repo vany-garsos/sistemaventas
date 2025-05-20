@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProductoRequest;
+use App\Http\Requests\UpdateProductoRequest;
 use App\Models\Producto;
 use App\Models\Categoria;
 use App\Models\Marca;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ProductoController extends Controller
 {
@@ -113,9 +115,41 @@ class ProductoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateProductoRequest $request, Producto $producto)
     {
-        //
+        try{
+            DB::beginTransaction();
+         
+            if($request->hasFile('imagen_path')){
+                $name = $producto->hanbleUploadImage($request->file('imagen_path'));
+                //Eliminar si es que existe una imagen
+                if(Storage::disk('public')->exists('productos/'.$producto->imagen_path)){
+                    Storage::disk('public')->delete('productos/'.$producto->imagen_path);
+                }
+            }else{
+                $name = $producto->img_path;
+            }
+
+            $producto->fill([
+                'codigo' => $request ->codigo,
+                'nombre' => $request->nombre,
+                'descripcion' => $request->descripcion,
+                'fecha_vencimiento' => $request->fecha_vencimiento,
+                'marca_id' => $request->marca_id,
+                'imagen_path' => $name
+            ]);
+
+            $producto->save();
+
+            //Tabla categoria-producto
+            $categorias = $request->get('categorias');
+            $producto->categorias()->sync($categorias);
+            DB::commit();
+        }catch(Exception $e){
+            DB::rollBack();
+        }
+
+        return redirect()->route('productos.index')->with('success', 'producto editado');
     }
 
     /**
@@ -123,6 +157,22 @@ class ProductoController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $message = '';
+        $producto = Producto::find($id);
+        if ($producto->estado == 1) {
+            Producto::where('id', $producto->id)
+                ->update([
+                    'estado' => 0
+                ]);
+            $message="Producto eliminado exitosamente";
+        } else {
+            Producto::where('id', $producto->id)
+                ->update([
+                    'estado' => 1
+                ]);
+                $message="Producto restaurado exitosamente";
+        }
+
+        return redirect()->route('productos.index')->with('success', $message);
     }
 }

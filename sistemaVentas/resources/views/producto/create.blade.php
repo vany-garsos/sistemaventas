@@ -1,6 +1,6 @@
 @extends('template')
 
-@section('title', 'Crear producto')
+@section('title', 'Crear cliente')
 
 @push('css')
 
@@ -16,16 +16,17 @@
 
 @section('content')
     <div class="container-fluid px-4">
-        <h1 class="mt-4 text-center">Crear productos</h1>
+        <h1 class="mt-4 text-center">Crear cliente</h1>
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item"><a href="{{ route('panel') }}">Inicio</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('productos.index') }}">Productos</a></li>
-            <li class="breadcrumb-item active">Crear producto</li>
+            <li class="breadcrumb-item"><a href="{{ route('clientes.index') }}">Clientes</a></li>
+            <li class="breadcrumb-item active">Crear cliente</li>
         </ol>
         <div class="container w-100 border border-1 border-primary rounded p-4 mt-3">
-            <form action="{{ route('productos.store')}}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('clientes.store')}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row g-3">
+                    <!--INGRESO DE CODIGO-->
                     <div class="col-md-6">
                         <label for="codigo" class="form-label">Codigo</label>
                         <input type="text" name="codigo" id="codigo" class="form-control" value="{{ old('codigo')}}">
@@ -33,6 +34,7 @@
                             <small class="text-danger">{{'*'.$message}}</small>
                         @enderror
                     </div>
+                      <!--INGRESO DE NOMBRE-->
                     <div class="col-md-6">
                         <label for="nombre" class="form-label">Nombre</label>
                         <input type="text" name="nombre" id="nombre" class="form-control" value="{{ old('nombre')}}">
@@ -40,6 +42,7 @@
                             <small class="text-danger">{{'*'.$message}}</small>
                         @enderror
                     </div>
+                    <!--INGRESO DE STOCK-->
                     <div class="col-md-6">
                         <label for="stock" class="form-label">Stock</label>
                         <input type="number" name="stock" id="stock" class="form-control" value="{{ old('stock')}}">
@@ -47,6 +50,7 @@
                             <small class="text-danger">{{'*'.$message}}</small>
                         @enderror
                     </div>
+                    <!--INGRESO DE FECHA VENCIMIENTO-->
                     <div class="col-md-6">
                         <label for="fecha_vencimiento" class="form-label">Fecha vencimiento</label>
                         <input type="date" name="fecha_vencimiento" id="fecha_vencimiento" class="form-control" value="{{ old('fecha_vencimiento')}}">
@@ -54,6 +58,7 @@
                             <small class="text-danger">{{'*'.$message}}</small>
                         @enderror
                     </div>
+                    <!--INGRESO DE DESCRIPCION-->
                      <div class="col-md-12">
                         <label for="descripcion" class="form-label">Descripcion</label>
                         <textarea name="descripcion" id="descripcion" rows="3" class="form-control">{{ old('descripcion') }}</textarea>
@@ -61,7 +66,7 @@
                             <small class="text-danger">{{'*'.$message}}</small>
                         @enderror
                     </div>
-                     
+                     <!--INGRESO DE IMAGEN-->
                     <div class="col-md-6">
                         <label for="imagen_path" class="form-label">Imagen</label>
                         <input type="file" name="imagen_path" id="imagen_path" class="form-control" value="{{ old('imagen_path')}}" accept="Image/*">
@@ -69,7 +74,7 @@
                             <small class="text-danger">{{'*'.$message}}</small>
                         @enderror
                     </div>
-                   
+                   <!--INGRESO DE MARCA-->
                     <div class="col-md-6">
                         <label for="marca_id" class="form-label">Marca</label>
                         <select name="marca_id" title="Seleccione una marca" id="marca_id" class="form-control selectpicker" data-live-search="true" data-size="4">
@@ -81,7 +86,7 @@
                             <small class="text-danger">{{'*'.$message}}</small>
                         @enderror
                     </div>
-
+|                   <!--INGRESO DE CATEGORIA-->
                      <div class="col-md-6">
                         <label for="categorias" class="form-label">Categoria</label>
                         <select name="categorias[]" title="Seleccione una categoria" id="categorias" class="form-control selectpicker"  data-live-search="true" data-size="4" multiple>
