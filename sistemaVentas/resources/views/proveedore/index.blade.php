@@ -58,7 +58,7 @@
                            <tr>
                                 <td>{{$proveedore->persona->razon_social}}</td>
                                  <td>{{$proveedore->persona->direccion}}</td>
-                                  <td>{{$proveedore->persona->documento->tipo_documento}}</td>
+                                  <td>{{$proveedore->persona->tipo_documento}}</td>
                                    <td>{{$proveedore->persona->numero_documento}}</td>
                                     <td>{{$proveedore->persona->tipo_persona}}</td>
                                      <td>

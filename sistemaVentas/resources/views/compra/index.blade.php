@@ -11,9 +11,8 @@
 
 @section('content')
     @if (session('success'))
-   
         <script>
-            let message = "{{session('success')}}"
+            let message = "{{ session('success') }}"
             Swal.fire({
                 position: "top-end",
                 icon: "success",
@@ -47,18 +46,70 @@
                     <thead>
                         <tr>
                             <th>Comprobante</th>
-                            <th>Fecha y hora</th>
-                            <th>Impuesto</th>
                             <th>Proveedor</th>
-                            <th>Estado</th>
-                            <th>Numero de comprobante</th>
+                            <th>Fecha y hora</th>
                             <th>Total</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        
+                        @foreach ($compras as $compra)
+                            <tr>
+                                <td>
+                                    <p class="fw-semibold mb-1">{{ $compra->comprobante->tipo_comprobante }}</p>
+                                    <p class="text-muted mb-0">{{ $compra->numero_comprobante }}</p>
+                                </td>
+                                <td>
+                                    <p class="fw-semibold mb-1">{{ ucfirst($compra->proveedore->persona->tipo_persona) }}
+                                    </p>
+                                    <p class="text-muted mb-0">{{ $compra->proveedore->persona->razon_social }}</p>
+                                </td>
+                                <td>
+                                    {{ $compra->fecha_hora }}
+                                </td>
+                                <td>
+                                    {{ $compra->total }}
+                                </td>
+                                <td>
+                                    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                        <form action="{{ route('compras.show', ['compra' => $compra]) }}">
+                                            <button type="submit" class="btn btn-info">Ver</button>
+                                        </form>
+
+                                         <button type="submit" class="btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#confirmModal-{{ $compra->id }}">Eliminar</button>
+                                    </div>
+
+                                </td>
+                            </tr>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="confirmModal-{{ $compra->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar compra</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            ¿Seguro deseas eliminar la compra?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Cerrar</button>
+                                                <form action="{{ route('compras.destroy', ['compra'=>$compra->id] )}}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger">Sí, eliminar compra</button>
+                                                </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

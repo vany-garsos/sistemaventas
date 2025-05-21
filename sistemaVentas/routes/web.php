@@ -6,6 +6,7 @@ use App\Http\Controllers\CompraController;
 use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ProveedoreController;
+use App\Http\Controllers\ventaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -52,6 +53,10 @@ Route::resource('proveedores', ProveedoreController::class);
 
 Route::view('/compras', 'compra.index');
 Route::resource('compras', CompraController::class);
+
+
+Route::view('/ventas', 'venta.index');
+Route::resource('ventas', ventaController::class);
 
 
 

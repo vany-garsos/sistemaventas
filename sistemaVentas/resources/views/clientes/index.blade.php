@@ -60,7 +60,7 @@
                            <tr>
                                 <td>{{$cliente->persona->razon_social}}</td>
                                  <td>{{$cliente->persona->direccion}}</td>
-                                  <td>{{$cliente->persona->documento->tipo_documento}}</td>
+                                  <td>{{$cliente->persona->tipo_documento}}</td>
                                    <td>{{$cliente->persona->numero_documento}}</td>
                                     <td>{{$cliente->persona->tipo_persona}}</td>
                                      <td>

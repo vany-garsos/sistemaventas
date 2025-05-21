@@ -20,7 +20,11 @@ class CompraController extends Controller
      */
     public function index()
     {
-        return view('compra.index');
+        $compras = Compra::with('comprobante', 'proveedore.persona')
+        ->where('estado', 1)->latest()->get();
+
+
+        return view('compra.index', compact('compras'));
     }
 
     /**
@@ -41,13 +45,12 @@ class CompraController extends Controller
      */
     public function store(StoreCompraRequest $request)
     {
-      
-        
         try {
             DB::beginTransaction();
 
             $compra = Compra::create($request->validated());
             //llenar tabla compra producto
+
             //1.Recuperar los arrays
             $arrayProducto_id = $request->get('arrayidproducto');
             $arrayCantidad = $request->get('arraycantidad');
@@ -55,20 +58,48 @@ class CompraController extends Controller
             $arrayPrecioVenta = $request->get('arrayprecioventa');
 
             //2.Realizar el llenado
+            $sizearray = count($arrayProducto_id);
+            $contador = 0;
+            while($contador < $sizearray){
+                $compra->productos()->syncWithoutDetaching([
+                    $arrayProducto_id[$contador] => [
+                        'cantidad' => $arrayCantidad[$contador],
+                        'precio_compra' => $arrayPrecioCompra[$contador],
+                        'precio_venta' => $arrayPrecioVenta[$contador]
+                    ]
+                ]);
 
+                //3.actualizar el stock
+            
+                $producto = Producto::find($arrayProducto_id[$contador]);
+                $stockAct = $producto->stock;
+                $stockNuevo = intval($arrayCantidad[$contador]);
+
+                DB::table('productos')
+                ->where('id', $producto->id)
+                ->update([
+                    'stock' => $stockAct + $stockNuevo
+                ]);
+
+                $contador++;
+            }
 
             DB::commit();
         } catch (Exception $e) {
-            DB::reset();
+            DB::rollBack();
         }
+
+        return redirect()->route('compras.index')->with('success', 'compra exitosa');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Compra $compra)
     {
-        //
+       // dd($compra->productos);
+        return view('compra.show', compact('compra'));
+
     }
 
     /**
@@ -92,6 +123,11 @@ class CompraController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        
+        Compra::where('id', $id)->update([
+            'estado' => 0
+        ]);
+      
+        return redirect()->route('compras.index')->with('success', 'Compra eliminada exitosamente');
     }
 }
