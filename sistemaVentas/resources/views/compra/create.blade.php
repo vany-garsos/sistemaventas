@@ -199,7 +199,8 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                         <button id="btnCancelarCompra" type="button" class="btn btn-danger" data-bs-dismiss="modal">Sí,
-                            cancelar compra</button>
+                            cancelar compra
+                        </button>
                     </div>
                 </div>
             </div>
@@ -369,7 +370,6 @@
                 $('#btnCancelar').show();
                 $('#btnGuardar').show();
             }
-
         }
     </script>
 @endpush

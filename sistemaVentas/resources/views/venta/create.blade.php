@@ -3,14 +3,15 @@
 @section('title', 'realizar venta')
 
 @push('css')
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/css/bootstrap-select.min.css">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/css/bootstrap-select.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endpush
 
 @section('content')
     <div class="container-fluid px-4">
-        <h1 class="mt-4 text-center">Crear compra</h1>
+        <h1 class="mt-4 text-center">Crear venta</h1>
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item"><a href="{{ route('panel') }}">Inicio</a></li>
             <li class="breadcrumb-item"><a href="{{ route('ventas.index') }}">Ventas</a></li>
@@ -31,10 +32,12 @@
                         <div class="row">
                             <!--producto-->
                             <div class="col-md-6 mb-2">
-                                <select name="producto_id" id="producto_id" class="form-control selectpicker" title="Seleccione un producto" data-live-search="true" data-size="4">
+                                <select name="producto_id" id="producto_id" class="form-control selectpicker"
+                                    title="Seleccione un producto" data-live-search="true" data-size="4">
                                     @foreach ($productos as $producto)
-                                        <option value="{{ $producto->id }}-{{$producto->stock}}-{{$producto->precio_venta}}">
-                                            {{ $producto->codigo . '-' . $producto->nombre }}
+                                        <option
+                                            value="{{ $producto->id }}-{{ $producto->stock }}-{{ $producto->precio_venta }}">
+                                            {{ $producto->codigo . $producto->nombre }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -55,7 +58,7 @@
                             <!--Precio de venta-->
                             <div class="col-md-4 mb-2">
                                 <label for="precio_venta" class="form-label">Precio de venta</label>
-                                <input type="number" name="precio_venta" id="precio_venta" class="form-control"
+                                <input disabled type="number" name="precio_venta" id="precio_venta" class="form-control"
                                     step="0.1">
                             </div>
                             <!--descuento-->
@@ -107,7 +110,7 @@
                                 </div>
                             </div>
 
-                            <!--boton para cancelar compra-->
+                            <!--boton para cancelar venta-->
                             <div class="col-md-12 mb-2 mt-2 text-end">
                                 <button type="button" id="btnCancelar" class="btn btn-danger" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal">
@@ -127,7 +130,8 @@
                             <!--cliente-->
                             <div class="col-md-12 mb-2">
                                 <label for="cliente_id" class="form-label">Cliente</label>
-                                <select name="cliente_id" id="cliente_id" class="form-control selectpicker" title="Seleccione un cliente" data-live-search="true" data-size="4">
+                                <select name="cliente_id" id="cliente_id" class="form-control selectpicker"
+                                    title="Seleccione un cliente" data-live-search="true" data-size="4">
                                     @foreach ($clientes as $cliente)
                                         <option value="{{ $cliente->id }}">{{ $cliente->persona->razon_social }}
                                         </option>
@@ -140,9 +144,11 @@
                             <!--Tipo de comprobante-->
                             <div class="col-md-12 mb-2">
                                 <label for="comprobante_id" class="form-label">Comprobante</label>
-                                <select name="comprobante_id" id="comprobante_id" class="form-control selectpicker" title="Seleccione un comprobante" data-live-search="true" data-size="4">
+                                <select name="comprobante_id" id="comprobante_id" class="form-control selectpicker"
+                                    title="Seleccione un comprobante" data-live-search="true" data-size="4">
                                     @foreach ($comprobantes as $comprobante)
-                                        <option value="{{ $comprobante->id }}">{{ $comprobante->tipo_comprobante }}</option>
+                                        <option value="{{ $comprobante->id }}">{{ $comprobante->tipo_comprobante }}
+                                        </option>
                                     @endforeach
                                 </select>
                                 @error('comprobante_id')
@@ -169,16 +175,18 @@
                                 @enderror
                             </div>
                             <!--Fecha-->
+                            @php
+                                use Carbon\Carbon;
+                                $fecha_hora = Carbon::now()->toDateTimeString();
+                            @endphp
+
                             <div class="col-md-6 mb-3">
                                 <label for="fecha" class="form-label">Fecha</label>
                                 <input type="date" name="fecha" id="fecha" class="form-control border-success"
-                                    value="<?php echo date('Y-m-d'); ?>">
-                                <?php
-                                use Carbon\Carbon;
-                                $fecha_hora = Carbon::now()->toDateTimeString();
-                                ?>
+                                    value="{{ date('Y-m-d') }}">
                                 <input type="hidden" name="fecha_hora" value="{{ $fecha_hora }}">
                             </div>
+                            <input type="hidden" name="user_id" value="1">
                             <!--Botones-->
                             <div class="col-md-12 text-center">
                                 <button type="submit" id="btnGuardar" class="btn btn-success">Guardar</button>
@@ -214,18 +222,186 @@
 @endsection
 
 @push('js')
- <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
 
-<script>
-     $(document).ready(function() {
-        $('#producto_id').change(mostrarValores);
+    <script>
+        //variables
+        let cont = 0;
+        let subtotal = [];
+        let sumas = 0;
+        let iva = 0;
+        let total = 0;
+
+        //Constantes
+
+        let IMPUESTO = 16;
+
+        $(document).ready(function() {
+            $('#producto_id').change(mostrarValores);
         });
 
-        function mostrarValores(){
+        $('#btn_agregar').click(function() {
+            agregarProducto();
+        });
+
+        $('#btnCancelarVenta').click(function() {
+            cancelarVenta();
+        });
+
+        $('#impuesto').val(IMPUESTO + '%');
+
+        desabilitarbotones();
+
+        //Muestra los valores en la tabla de 'detalle de la venta' una vez que se haya seleccionado un producto'
+        function mostrarValores() {
             let dataProducto = document.getElementById('producto_id').value.split('-');
-            console.log(dataProducto);
+            $('#stock').val(dataProducto[1]);
+            $('#precio_venta').val(dataProducto[2]);
+        }
+
+        //Al dar click en el boton de agregar se llena dinamicamente la tabla con los valores
+        function agregarProducto() {
+            let dataProducto = document.getElementById('producto_id').value.split('-');
+            let idProducto = dataProducto[0];
+            let nameProducto = $('#producto_id option:selected').text();
+            let cantidad = $('#cantidad').val();
+            let precioVenta = $('#precio_venta').val();
+            let descuento = $('#descuento').val();
+            let stock = $('#stock').val();
+
+            if (descuento == '') {
+                descuento = 0;
+            }
+
+            //Validaciones
+            //1. para que los campos no estén vacíos
+            if (idProducto != '' && cantidad != '') {
+                //2. Para que los valores ingresados sean correctos
+                if (parseInt(cantidad) < 0 || parseFloat(descuento) < 0) {
+                    alerta('Ingresa valores correctos');
+                } else {
+                    //3. Para que la cantidad no supere el stock
+                    if (parseInt(cantidad) > parseInt(stock)) {
+                        alerta('No hay suficiente stock');
+                    } else {
+                        //calcular valores
+                        subtotal[cont] = cantidad * precioVenta - descuento;
+                        sumas += subtotal[cont];
+                        iva = sumas / 100 * IMPUESTO;
+
+                        total = sumas + iva;
+
+                        //Crear fila
+                        let fila = '<tr id="fila' + cont + '">' +
+                            ' <td>' + (cont + 1) + '</td>' +
+                            ' <td><input type="hidden" name="arrayidproducto[]" value="' + idProducto + '">' +
+                            nameProducto +
+                            '</td>' +
+                            ' <td><input type="hidden" name="arraycantidad[]" value="' + cantidad + '">' + cantidad +
+                            '</td>' +
+                            ' <td><input type="hidden" name="arrayprecioventa[]" value="' + precioVenta + '">' +
+                            precioVenta + '</td>' +
+                            ' <td><input type="hidden" name="arraydescuento[]" value="' + descuento + '">' +
+                            descuento +
+                            '</td>' +
+                            ' <td>' + subtotal[cont] + '</td>' +
+                            ' <td><button type="button" class="btn btn-danger" onClick="eliminarProducto(' + cont +
+                            ')"><i class="fa-solid fa-trash"></i></button></td>' +
+                            ' </tr>';
+
+
+                        //acciones despues de añadir la fila
+                        $('#tabla_detalle').append(fila);
+                        limpiarCampos();
+                        cont++;
+                        desabilitarbotones();
+
+                        //mostrar los campos calculados
+                        $('#sumas').html(sumas);
+                        $('#iva').html(iva);
+                        $('#total').html(total);
+                        $('#impuesto').val(iva);
+                        $('#inputTotal').val(total);
+                    }
+                }
+            } else {
+                alerta('Faltan campos por llenar');
+            }
 
         }
 
-</script>
+
+        //Establecer los campos vacios una vez que se haya aregado un producto
+        function limpiarCampos() {
+            $('#cantidad').val('');
+            $('#descuento').val('');
+            $('#precio_venta').val('');
+            $('#stock').val('');
+            let select = $('#producto_id');
+            select.selectpicker();
+            select.selectpicker('val', '');
+        }
+
+
+        //alerta cuando existan errores en los campos
+        function alerta(message) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: message,
+            });
+        }
+
+        //funcion para eliminar un registro
+        function eliminarProducto(indice) {
+            //sumas
+            sumas -= subtotal[indice];
+            iva = sumas / 100 * IMPUESTO;
+            total = sumas + iva;
+
+            //mostrar los campos calculados
+            $('#sumas').html(sumas);
+            $('#iva').html(iva);
+            $('#total').html(total);
+            $('#impuesto').val(iva);
+            $('#inputTotal').val(total);
+
+            //Eliminar la fila de la tabla
+            $('#fila' + indice).remove();
+            desabilitarbotones();
+        }
+
+        //funcion para eliminar todos los productos que se hayan agregado a la tabla
+        function cancelarVenta() {
+            $('#tabla_detalle > tbody').empty();
+
+            //reiniciar valores de las variables
+            cont = 0;
+            subtotal = [];
+            sumas = 0;
+            iva = 0;
+            total = 0;
+
+            //mostrar los campos calculados
+            $('#sumas').html(sumas);
+            $('#iva').html(iva);
+            $('#total').html(total);
+            $('#impuesto').val(IMPUESTO + '%');
+            $('#inputTotal').val(total);
+
+            limpiarCampos();
+            desabilitarbotones();
+        }
+
+        //ocultar botones cuando no haya productos
+        function desabilitarbotones() {
+            if (total == 0) {
+                $('#btnCancelar').hide();
+                $('#btnGuardar').hide();
+            } else {
+                $('#btnCancelar').show();
+                $('#btnGuardar').show();
+            }
+        }
+    </script>
 @endpush
