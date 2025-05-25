@@ -3,9 +3,14 @@
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\CompraController;
+use App\Http\Controllers\homeController;
+use App\Http\Controllers\loginController;
+use App\Http\Controllers\logoutController;
 use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ProveedoreController;
+use App\Http\Controllers\roleController;
+use App\Http\Controllers\userController;
 use App\Http\Controllers\ventaController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,11 +25,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('template');
-});
+Route::get('/', [homeController::class, 'index'])->name('panel');
 
-Route::view('/panel','panel.index')->name('panel');
+
+
 Route::view('/categorias','categoria.index');
 Route::resource('categorias', CategoriaController::class);
 
@@ -59,11 +63,13 @@ Route::view('/ventas', 'venta.index');
 Route::resource('ventas', ventaController::class);
 
 
+Route::resource('users', userController::class);
+Route::resource('roles', roleController::class);
 
-Route::get('/login', function () {
-    return view('auth.login');
-});
 
+Route::get('/login', [loginController::class, 'index'])->name('login');
+Route::post('/login', [loginController::class, 'login']);
+Route::get('/logout', [logoutController::class, 'logout'])->name('logout');
 
 Route::get('/401', function () {
     return view('pages.401');

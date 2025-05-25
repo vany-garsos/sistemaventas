@@ -186,7 +186,8 @@
                                     value="{{ date('Y-m-d') }}">
                                 <input type="hidden" name="fecha_hora" value="{{ $fecha_hora }}">
                             </div>
-                            <input type="hidden" name="user_id" value="1">
+                            <!--user-->
+                            <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
                             <!--Botones-->
                             <div class="col-md-12 text-center">
                                 <button type="submit" id="btnGuardar" class="btn btn-success">Guardar</button>

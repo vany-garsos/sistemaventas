@@ -75,7 +75,7 @@
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-weight-hanging"></i></div>
                                 Proveedores
                             </a>
-<!--COMPRAS-->
+                            <!--COMPRAS-->
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                                 <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                                 Compras
@@ -105,9 +105,20 @@
                                 </nav>
                             </div
                     </div>
+
+                    <!--otros-->
+                    <div class="sb-sidenav-menu-heading">OTROS</div>
+                      <a class="nav-link" href="{{ route('users.index')}}">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-user"></i></div>
+                                Usuarios
+                    </a>
+                      <a class="nav-link" href="{{ route('roles.index')}}">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-person-circle-plus"></i></div>
+                                Roles
+                            </a>
                     <div class="sb-sidenav-footer">
                         <div class="small">Bienvenido:</div>
-                        Start Bootstrap
+                        {{ auth()->user()->name }}
                     </div>
                 </nav>
             </div>
