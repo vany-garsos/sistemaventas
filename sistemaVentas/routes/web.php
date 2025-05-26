@@ -7,6 +7,7 @@ use App\Http\Controllers\homeController;
 use App\Http\Controllers\loginController;
 use App\Http\Controllers\logoutController;
 use App\Http\Controllers\MarcaController;
+use App\Http\Controllers\PorfileController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ProveedoreController;
 use App\Http\Controllers\roleController;
@@ -66,6 +67,8 @@ Route::resource('ventas', ventaController::class);
 Route::resource('users', userController::class);
 Route::resource('roles', roleController::class);
 
+
+Route::resource('profile', PorfileController::class);
 
 Route::get('/login', [loginController::class, 'index'])->name('login');
 Route::post('/login', [loginController::class, 'login']);
