@@ -68,21 +68,21 @@
 
                  @can('ver-producto')
                      <a class="nav-link" href="{{ route('productos.index') }}">
-                         <div class="sb-nav-link-icon"><i class="fa-solid fa-ticket"></i></div>
+                         <div class="sb-nav-link-icon"><i class="fa-brands fa-shopify"></i></div>
                          Productos
                      </a>
                  @endcan
 
                  @can('ver-cliente')
                      <a class="nav-link" href="{{ route('clientes.index') }}">
-                         <div class="sb-nav-link-icon"><i class="fa-solid fa-weight-hanging"></i></div>
+                         <div class="sb-nav-link-icon"><i class="fa-solid fa-people-group"></i></div>
                          Clientes
                      </a>
                  @endcan
 
                  @can('ver-proveedores')
                      <a class="nav-link" href="{{ route('proveedores.index') }}">
-                         <div class="sb-nav-link-icon"><i class="fa-solid fa-weight-hanging"></i></div>
+                         <div class="sb-nav-link-icon"><i class="fa-solid fa-user-group"></i></div>
                          Proveedores
                      </a>
                  @endcan
@@ -90,7 +90,7 @@
                  @can('ver-compra')
                      <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
                          data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                         <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                         <div class="sb-nav-link-icon"><i class="fa-solid fa-store"></i></div>
                          Compras
                          <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                      </a>
