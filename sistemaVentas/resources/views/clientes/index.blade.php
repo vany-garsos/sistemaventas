@@ -11,9 +11,8 @@
 
 @section('content')
     @if (session('success'))
-   
         <script>
-            let message = "{{session('success')}}"
+            let message = "{{ session('success') }}"
             Swal.fire({
                 position: "top-end",
                 icon: "success",
@@ -33,8 +32,10 @@
 
 
         <div class="mb-4">
-            <a href="{{ route('clientes.create') }}"><button type="button" class="btn btn-primary">Añadir un nuevo
-                    registro</button></a>
+            @can('crear-cloemte')
+                <a href="{{ route('clientes.create') }}"><button type="button" class="btn btn-primary">Añadir un nuevo
+                        registro</button></a>
+            @endcan
         </div>
 
         <div class="card mb-4">
@@ -51,43 +52,48 @@
                             <th>Tipo de documento</th>
                             <th>Numero de documento</th>
                             <th>Estado</th>
-                            <th>Acciones</th>
+                            @can('editar-cliente' || 'eliminar-cliente')
+                                <th>Acciones</th>
+                            @endcan
                         </tr>
                     </thead>
 
-                    <tbody> 
-                        @foreach($clientes as $cliente)
-                           <tr>
-                                <td>{{$cliente->persona->razon_social}}</td>
-                                 <td>{{$cliente->persona->direccion}}</td>
-                                  <td>{{$cliente->persona->tipo_documento}}</td>
-                                   <td>{{$cliente->persona->numero_documento}}</td>
-                                    <td>{{$cliente->persona->tipo_persona}}</td>
-                                     <td>
-                                        @if ($cliente->persona->estado==1)
-                                     <span class="rounded bg-success text-white p-1">Activo</span>
+                    <tbody>
+                        @foreach ($clientes as $cliente)
+                            <tr>
+                                <td>{{ $cliente->persona->razon_social }}</td>
+                                <td>{{ $cliente->persona->direccion }}</td>
+                                <td>{{ $cliente->persona->tipo_documento }}</td>
+                                <td>{{ $cliente->persona->numero_documento }}</td>
+                                <td>{{ $cliente->persona->tipo_persona }}</td>
+                                <td>
+                                    @if ($cliente->persona->estado == 1)
+                                        <span class="rounded bg-success text-white p-1">Activo</span>
                                     @else
                                         <span class="rounded bg-danger text-white p-1">Eliminado</span>
-                                         
-                                     @endif
-                                    </td>
-                                     <td>
+                                    @endif
+                                </td>
+                                <td>
                                     <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                        <form action="{{ route('clientes.edit', ['cliente' => $cliente]) }}"
-                                            method="GET">
-                                            <button type="submit" class="btn btn-warning">Editar</button>
-                                        </form>
-                                        @if ($cliente->persona->estado == 1)
-                                              <button type="submit" class="btn btn-danger" data-bs-toggle="modal"
-                                            data-bs-target="#confirmModal-{{ $cliente->id }}">Eliminar</button>
-                                        @else
-                                             <button type="submit" class="btn btn-success" data-bs-toggle="modal"
-                                            data-bs-target="#confirmModal-{{ $cliente->id }}">Restaurar</button>
-                                        @endif
-                                      
+                                        @can('editar-cliente')
+                                            <form action="{{ route('clientes.edit', ['cliente' => $cliente]) }}" method="GET">
+                                                <button type="submit" class="btn btn-warning">Editar</button>
+                                            </form>
+                                        @endcan
+
+                                        @can('eliminar-cliente')
+                                            @if ($cliente->persona->estado == 1)
+                                                <button type="submit" class="btn btn-danger" data-bs-toggle="modal"
+                                                    data-bs-target="#confirmModal-{{ $cliente->id }}">Eliminar</button>
+                                            @else
+                                                <button type="submit" class="btn btn-success" data-bs-toggle="modal"
+                                                    data-bs-target="#confirmModal-{{ $cliente->id }}">Restaurar</button>
+                                            @endif
+                                        @endcan
+
                                     </div>
                                 </td>
-                           </tr>
+                            </tr>
                             <!-- Modal eliminar cliente-->
                             <div class="modal fade" id="confirmModal-{{ $cliente->persona->id }}" tabindex="-1"
                                 aria-labelledby="confirmModal" aria-hidden="true">
@@ -107,7 +113,8 @@
                                             <button type="button" class="btn btn-secondary"
                                                 data-bs-dismiss="modal">Cerrar</button>
 
-                                            <form action="{{ route('clientes.destroy', $cliente->persona->id) }}" method="POST">
+                                            <form action="{{ route('clientes.destroy', $cliente->persona->id) }}"
+                                                method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit"
@@ -118,7 +125,7 @@
                                 </div>
                             </div>
                         @endforeach
-                      
+
                     </tbody>
                 </table>
             </div>

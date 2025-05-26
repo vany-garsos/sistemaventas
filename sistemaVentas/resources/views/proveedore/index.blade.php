@@ -48,8 +48,11 @@
                             <th>Direccion</th>
                             <th>Tipo de documento</th>
                             <th>Numero de documento</th>
+                            <th>Tipo persona</th>
                             <th>Estado</th>
-                            <th>Acciones</th>
+                            @can('editar-categoria' || 'eliminar-categoria')
+                                <th>Acciones</th>
+                            @endcan
                         </tr>
                     </thead>
 
@@ -71,10 +74,14 @@
                                     </td>
                                      <td>
                                     <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                        @can('crear-proveedores')
                                         <form action="{{ route('proveedores.edit', ['proveedore' => $proveedore]) }}"
                                             method="GET">
                                             <button type="submit" class="btn btn-warning">Editar</button>
                                         </form>
+                                        @endcan
+
+                                        @can('eliminar-proveedores')
                                         @if ($proveedore->persona->estado == 1)
                                               <button type="submit" class="btn btn-danger" data-bs-toggle="modal"
                                             data-bs-target="#confirmEliminar-{{ $proveedore->persona->id }}">Eliminar</button>
@@ -82,7 +89,7 @@
                                              <button type="submit" class="btn btn-success" data-bs-toggle="modal"
                                             data-bs-target="#confirmEliminar-{{ $proveedore->persona->id }}">Restaurar</button>
                                         @endif
-                                      
+                                      @endcan
                                     </div>
                                 </td>
                            </tr>

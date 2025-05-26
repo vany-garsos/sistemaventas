@@ -32,8 +32,10 @@
 
 
         <div class="mb-4">
-            <a href="{{ route('compras.create') }}"><button type="button" class="btn btn-primary">Añadir un nuevo
-                    registro</button></a>
+            @can('crear-compra')
+                <a href="{{ route('compras.create') }}"><button type="button" class="btn btn-primary">Añadir un nuevo
+                        registro</button></a>
+            @endcan
         </div>
 
         <div class="card mb-4">
@@ -49,7 +51,9 @@
                             <th>Proveedor</th>
                             <th>Fecha y hora</th>
                             <th>Total</th>
-                            <th>Acciones</th>
+                            @can('editar-compra' || 'eliminar-compra')
+                                <th>Acciones</th>
+                            @endcan
                         </tr>
                     </thead>
 
@@ -73,20 +77,24 @@
                                 </td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                        <form action="{{ route('compras.show', ['compra' => $compra]) }}">
-                                            <button type="submit" class="btn btn-info">Ver</button>
-                                        </form>
+                                        @can('mostrar-compra')
+                                            <form action="{{ route('compras.show', ['compra' => $compra]) }}">
+                                                <button type="submit" class="btn btn-info">Ver</button>
+                                            </form>
+                                        @endcan
 
-                                         <button type="submit" class="btn btn-danger" data-bs-toggle="modal"
-                                            data-bs-target="#confirmModal-{{ $compra->id }}">Eliminar</button>
+                                        @can('eliminar-compra')
+                                            <button type="submit" class="btn btn-danger" data-bs-toggle="modal"
+                                                data-bs-target="#confirmModal-{{ $compra->id }}">Eliminar</button>
+                                        @endcan
                                     </div>
 
                                 </td>
                             </tr>
 
                             <!-- Modal -->
-                            <div class="modal fade" id="confirmModal-{{ $compra->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
-                                aria-hidden="true">
+                            <div class="modal fade" id="confirmModal-{{ $compra->id }}" tabindex="-1"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -100,11 +108,12 @@
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
                                                 data-bs-dismiss="modal">Cerrar</button>
-                                                <form action="{{ route('compras.destroy', ['compra'=>$compra->id] )}}" method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger">Sí, eliminar compra</button>
-                                                </form>
+                                            <form action="{{ route('compras.destroy', ['compra' => $compra->id]) }}"
+                                                method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger">Sí, eliminar compra</button>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>

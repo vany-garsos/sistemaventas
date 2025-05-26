@@ -11,9 +11,8 @@
 
 @section('content')
     @if (session('success'))
-   
         <script>
-            let message = "{{session('success')}}"
+            let message = "{{ session('success') }}"
             Swal.fire({
                 position: "top-end",
                 icon: "success",
@@ -31,11 +30,12 @@
             <li class="breadcrumb-item active">Categorias</li>
         </ol>
 
-
-        <div class="mb-4">
-            <a href="{{ route('categorias.create') }}"><button type="button" class="btn btn-primary">Añadir un nuevo
-                    registro</button></a>
-        </div>
+        @can('crear-categoria')
+            <div class="mb-4">
+                <a href="{{ route('categorias.create') }}"><button type="button" class="btn btn-primary">Añadir un nuevo
+                        registro</button></a>
+            </div>
+        @endcan
 
         <div class="card mb-4">
             <div class="card-header">
@@ -49,7 +49,9 @@
                             <th>Nombre</th>
                             <th>Descripcion</th>
                             <th>Estado</th>
-                            <th>Acciones</th>
+                            @can('editar-categoria' || 'eliminar-categoria')
+                                <th>Acciones</th>
+                            @endcan
                         </tr>
                     </thead>
 
@@ -67,18 +69,23 @@
                                 </td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                        <form action="{{ route('categorias.edit', ['categoria' => $categoria]) }}"
-                                            method="GET">
-                                            <button type="submit" class="btn btn-warning">Editar</button>
-                                        </form>
-                                        @if ($categoria->caracteristica->estado == 1)
-                                              <button type="submit" class="btn btn-danger" data-bs-toggle="modal"
-                                            data-bs-target="#confirmModal-{{ $categoria->id }}">Eliminar</button>
-                                        @else
-                                             <button type="submit" class="btn btn-success" data-bs-toggle="modal"
-                                            data-bs-target="#confirmModal-{{ $categoria->id }}">Restaurar</button>
-                                        @endif
-                                      
+                                        @can('editar-categoria')
+                                            <form action="{{ route('categorias.edit', ['categoria' => $categoria]) }}"
+                                                method="GET">
+                                                <button type="submit" class="btn btn-warning">Editar</button>
+                                            </form>
+                                        @endcan
+
+                                        @can('eliminar-categoria')
+                                            @if ($categoria->caracteristica->estado == 1)
+                                                <button type="submit" class="btn btn-danger" data-bs-toggle="modal"
+                                                    data-bs-target="#confirmModal-{{ $categoria->id }}">Eliminar</button>
+                                            @else
+                                                <button type="submit" class="btn btn-success" data-bs-toggle="modal"
+                                                    data-bs-target="#confirmModal-{{ $categoria->id }}">Restaurar</button>
+                                            @endif
+                                        @endcan
+
                                     </div>
                                 </td>
                             </tr>
@@ -89,30 +96,32 @@
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="exampleModalLabel">{{$categoria->caracteristica->estado == 1 ? 'Eliminar categoría' : 
-                                            'Restaurar categoria'}}</h1>
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">
+                                                {{ $categoria->caracteristica->estado == 1 ? 'Eliminar categoría' : 'Restaurar categoria' }}
+                                            </h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            {{$categoria->caracteristica->estado == 1 ? '¿Seguro deseas eliminar esta categoria?' : 
-                                            '¿Deseas restaurar la categoria?'}}
+                                            {{ $categoria->caracteristica->estado == 1
+                                                ? '¿Seguro deseas eliminar esta categoria?'
+                                                : '¿Deseas restaurar la categoria?' }}
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
                                                 data-bs-dismiss="modal">Cerrar</button>
 
-                                            <form action="{{ route('categorias.destroy', $categoria->id) }}" method="POST">
+                                            <form action="{{ route('categorias.destroy', $categoria->id) }}"
+                                                method="POST">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger">{{$categoria->caracteristica->estado == 1 ? 'Sí, eliminar' : 
-                                            'Sí, restaurar'}}</button>
+                                                <button type="submit"
+                                                    class="btn btn-danger">{{ $categoria->caracteristica->estado == 1 ? 'Sí, eliminar' : 'Sí, restaurar' }}</button>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            
                         @endforeach
                     </tbody>
                 </table>

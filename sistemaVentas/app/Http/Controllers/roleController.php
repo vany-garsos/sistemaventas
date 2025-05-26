@@ -11,6 +11,14 @@ use Illuminate\Support\Facades\DB;
 
 class roleController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:ver-role|crear-role|editar-role|eliminar-role',['only'=> ['index']]);
+        $this->middleware('permission:crear-role',['only'=> ['create', 'store']]);
+        $this->middleware('permission:editar-role', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:eliminar-role',['only' => ['destroy']]);
+    }
+    
     /**
      * Display a listing of the resource.
      */

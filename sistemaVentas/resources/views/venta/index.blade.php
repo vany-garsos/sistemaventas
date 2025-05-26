@@ -32,8 +32,10 @@
 
 
         <div class="mb-4">
+            @can('crear-venta')
             <a href="{{ route('ventas.create') }}"><button type="button" class="btn btn-primary">Añadir un nuevo
                     registro</button></a>
+            @endcan
         </div>
 
         <div class="card mb-4">
@@ -77,12 +79,16 @@
                                 </td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                        @can('mostrar-venta')
                                         <form action="{{ route('ventas.show', ['venta' => $venta]) }}">
                                             <button type="submit" class="btn btn-info">Ver</button>
                                         </form>
-
+                                        @endcan
+                                        
+                                        @can('eliminar-venta')
                                          <button type="submit" class="btn btn-danger" data-bs-toggle="modal"
                                             data-bs-target="#confirmModal-{{ $venta->id }}">Eliminar</button>
+                                        @endcan
                                     </div>
 
                                 </td>

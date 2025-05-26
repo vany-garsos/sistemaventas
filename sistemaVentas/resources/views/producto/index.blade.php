@@ -32,8 +32,10 @@
 
 
         <div class="mb-4">
-            <a href="{{ route('productos.create') }}"><button type="button" class="btn btn-primary">Añadir un nuevo
-                    producto</button></a>
+            @can('crear-producto')
+                <a href="{{ route('productos.create') }}"><button type="button" class="btn btn-primary">Añadir un nuevo
+                        producto</button></a>
+            @endcan
         </div>
 
         <div class="card mb-4">
@@ -80,23 +82,27 @@
                                 <td>
                                     <!--BOTONES DE ACCION--->
                                     <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                         <!--Editar-->
-                                        <form action="{{ route('productos.edit', ['producto' => $producto]) }}"
-                                            method="GET">
-                                            <button type="submit" class="btn btn-warning">Editar</button>
-                                        </form>
+                                        <!--Editar-->
+                                        @can('editar-producto')
+                                            <form action="{{ route('productos.edit', ['producto' => $producto]) }}"
+                                                method="GET">
+                                                <button type="submit" class="btn btn-warning">Editar</button>
+                                            </form>
+                                        @endcan
                                         <!--Ver-->
                                         <button type="button" class="btn btn-info" data-bs-toggle="modal"
                                             data-bs-target="#openProduct-{{ $producto->id }}">Ver</button>
 
                                         <!--Eliminar / restaurar-->
-                                        @if ($producto->estado == 1)
-                                            <button type="submit" class="btn btn-danger" data-bs-toggle="modal"
-                                                data-bs-target="#confirmModal-{{ $producto->id }}">Eliminar</button>
-                                        @else
-                                            <button type="submit" class="btn btn-success" data-bs-toggle="modal"
-                                                data-bs-target="#confirmModal-{{ $producto->id }}">Restaurar</button>
-                                        @endif
+                                        @can('eliminar-producto')
+                                            @if ($producto->estado == 1)
+                                                <button type="submit" class="btn btn-danger" data-bs-toggle="modal"
+                                                    data-bs-target="#confirmModal-{{ $producto->id }}">Eliminar</button>
+                                            @else
+                                                <button type="submit" class="btn btn-success" data-bs-toggle="modal"
+                                                    data-bs-target="#confirmModal-{{ $producto->id }}">Restaurar</button>
+                                            @endif
+                                        @endcan
                                     </div>
                                 </td>
                             </tr>

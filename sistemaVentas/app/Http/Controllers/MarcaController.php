@@ -12,6 +12,13 @@ use Illuminate\Support\Facades\DB;
 
 class MarcaController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:ver-marca|crear-marca|mostrar-marca|eliminar-marca',['only'=> ['index']]);
+        $this->middleware('permission:crear-marca',['only'=> ['create', 'store']]);
+        $this->middleware('permission:mostrar-marca', ['only' => ['show']]);
+        $this->middleware('permission:eliminar-marca',['only' => ['destroy']]);
+    }
     /**
      * Display a listing of the resource.
      */

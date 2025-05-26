@@ -13,6 +13,13 @@ use Exception;
 
 class ProveedoreController extends Controller
 {
+      function __construct()
+    {
+        $this->middleware('permission:ver-proveedores|crear-proveedores|editar-proveedores|eliminar-proveedores',['only'=> ['index']]);
+        $this->middleware('permission:crear-proveedores',['only'=> ['create', 'store']]);
+        $this->middleware('permission:editar-proveedores', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:eliminar-proveedores',['only' => ['destroy']]);
+    }
     /**
      * Display a listing of the resource.
      */
