@@ -26,7 +26,7 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        $productos = Producto::with(['categorias.caracteristica','marca.caracteristica'])->latest()->get();
+        $productos = Producto::with(['categorias.caracteristica','marca.caracteristica'])->get();
         return view('producto.index', compact('productos'));
     }
 

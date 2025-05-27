@@ -251,15 +251,15 @@
             if (nameProducto != '' && cantidad != '' && precioCompra != '' && precioVenta != '') {
 
                 //2. Para que los valores ingresados sean correctos
-                if (cantidad <= 0 || precioCompra <= 0 || precioVenta <= 0) {
+                if (parseInt(cantidad) <= 0 || parseInt(precioCompra) <= 0 || parseInt(precioVenta) <= 0) {
                     alerta('Ingresa valores correctos, mayores que 0');
                 } else {
                     //3. Que el precio de compra sea menor que el precio de venta
-                    if (precioCompra > precioVenta) {
+                    if (parseInt(precioCompra) > parseInt(precioVenta)) {
                         alerta('El precio de COMPRA no puede ser mayor al precio de VENTA');
                     } else {
                         //calcular valores
-                        subtotal[cont] = cantidad * precioVenta;
+                        subtotal[cont] = cantidad * precioCompra;
                         sumas += subtotal[cont];
                         iva = sumas / 100 * IMPUESTO;
 

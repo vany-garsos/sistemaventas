@@ -47,7 +47,7 @@
         <div class="row mb-2">
             <div class="col-sm-4">
                 <div class="input-group mb-3">
-                    <span class="input-group-text"><i class="fa-solid fa-user_tie"></i></span>
+                    <span class="input-group-text"><i class="fa-solid fa-user-group"></i></span>
                     <input disabled type="text" class="form-control" value="Proveedor: ">
                 </div>
             </div>

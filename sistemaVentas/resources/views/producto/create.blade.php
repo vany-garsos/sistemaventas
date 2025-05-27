@@ -1,6 +1,6 @@
 @extends('template')
 
-@section('title', 'Crear cliente')
+@section('title', 'Crear producto')
 
 @push('css')
 
@@ -16,14 +16,14 @@
 
 @section('content')
     <div class="container-fluid px-4">
-        <h1 class="mt-4 text-center">Crear cliente</h1>
+        <h1 class="mt-4 text-center">Crear producto</h1>
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item"><a href="{{ route('panel') }}">Inicio</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('clientes.index') }}">Clientes</a></li>
-            <li class="breadcrumb-item active">Crear cliente</li>
+            <li class="breadcrumb-item"><a href="{{ route('productos.index') }}">Productos</a></li>
+            <li class="breadcrumb-item active">Crear productos</li>
         </ol>
         <div class="container w-100 border border-1 border-primary rounded p-4 mt-3">
-            <form action="{{ route('clientes.store')}}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('productos.store')}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row g-3">
                     <!--INGRESO DE CODIGO-->
@@ -86,7 +86,7 @@
                             <small class="text-danger">{{'*'.$message}}</small>
                         @enderror
                     </div>
-|                   <!--INGRESO DE CATEGORIA-->
+                  <!--INGRESO DE CATEGORIA-->
                      <div class="col-md-6">
                         <label for="categorias" class="form-label">Categoria</label>
                         <select name="categorias[]" title="Seleccione una categoria" id="categorias" class="form-control selectpicker"  data-live-search="true" data-size="4" multiple>

@@ -81,6 +81,7 @@
                     
                     <div class="col-12 text-center">
                         <button type="submit" class="btn btn-primary">Guardar</button>
+                        <a href="{{route('proveedores.index')}}" class="btn btn-secondary">Regresar</a>
                     </div>
                 </div>
             </form>

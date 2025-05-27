@@ -37,7 +37,7 @@
                     </div>
                     <div class="col-12 text-center">
                         <button type="submit" class="btn btn-primary">Actualizar</button>
-                        <button type="reset" class="btn btn-secondary">Cancelar</button>
+                        <a href="{{route('categorias.index')}}" class="btn btn-secondary">Regresar</a>
                     </div>
                 </div>
             </form>
