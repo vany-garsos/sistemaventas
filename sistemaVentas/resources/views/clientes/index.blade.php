@@ -32,7 +32,7 @@
 
 
         <div class="mb-4">
-            @can('crear-cloemte')
+            @can('crear-cliente')
                 <a href="{{ route('clientes.create') }}"><button type="button" class="btn btn-primary">Añadir un nuevo
                         registro</button></a>
             @endcan

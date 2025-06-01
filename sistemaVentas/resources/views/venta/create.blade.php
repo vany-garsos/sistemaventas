@@ -1,6 +1,6 @@
 @extends('template')
 
-@section('title', 'realizar venta')
+@section('title', 'Realizar venta')
 
 @push('css')
     <link rel="stylesheet"
@@ -21,17 +21,15 @@
     <form action="{{ route('ventas.store') }}" method="POST">
         @csrf
 
-        <div class="container mt-4">
+        <div class="container mt-4 ">
             <div class="row gy-4">
                 <!--venta producto-->
                 <div class="col-md-8">
-                    <div class="text-white bg-primary p-1 text-center">
-                        Detalles de la venta
-                    </div>
-                    <div class="p-3 border border-3 border-primary">
+
+                    <div class="p-3">
                         <div class="row">
                             <!--producto-->
-                            <div class="col-md-6 mb-2">
+                            <div class="col-md-12 mb-2">
                                 <select name="producto_id" id="producto_id" class="form-control selectpicker"
                                     title="Seleccione un producto" data-live-search="true" data-size="4">
                                     @foreach ($productos as $producto)
@@ -42,39 +40,46 @@
                                     @endforeach
                                 </select>
                             </div>
+                            <!--activar seleccion del codigo de barras
+                                                                                                            <div class="col-md-3 mb-2">
+                                                                                                                <div class="form-check form-switch">
+                                                                                                                    <input class="form-check-input" type="checkbox" name="switch" id="switch">
+                                                                                                                    <label class="form-check-label" for="switch">Codigo de barras</label>
+                                                                                                                </div>
+
+                                                                                                            </div-->
+
                             <!--stock-->
-                            <div class="col-md-6 mb-2 d-flex">
-                                <div class="col-md-2">
-                                    <label for="stock" class="form-label">Stock:</label>
-                                </div>
+                            <div class="col-md-3 mb-2">
+                                <label for="stock" class="form-label">Stock:</label>
                                 <input disabled type="number" name="stock" id="stock" class="form-control">
                             </div>
                             <!--Cantidad-->
-                            <div class="col-md-4 mb-2">
+                            <div class="col-md-3 mb-2">
                                 <label for="cantidad" class="form-label">Cantidad</label>
                                 <input type="number" name="cantidad" id="cantidad" class="form-control">
                             </div>
 
                             <!--Precio de venta-->
-                            <div class="col-md-4 mb-2">
+                            <div class="col-md-3 mb-2">
                                 <label for="precio_venta" class="form-label">Precio de venta</label>
                                 <input disabled type="number" name="precio_venta" id="precio_venta" class="form-control"
                                     step="0.1">
                             </div>
                             <!--descuento-->
-                            <div class="col-md-4 mb-2">
+                            <div class="col-md-3 mb-2">
                                 <label for="precio_venta" class="form-label">Descuento:</label>
                                 <input type="number" name="descuento" id="descuento" class="form-control">
                             </div>
                             <!--boton para agregar-->
                             <div class="col-md-12 mb-2 text-end">
-                                <button type="button" id="btn_agregar" class="btn btn-primary">Agregar</button>
+                                <button type="button" id="btn_agregar" class="btn btn-dark">Agregar</button>
                             </div>
                             <!--tabla para detalles de la venta-->
                             <div class="col-md-12">
                                 <div class="table-responsive">
-                                    <table id="tabla_detalle" class="table table-hover">
-                                        <thead class="bg-primary text-white">
+                                    <table id="tabla_detalle" class="table table-hover table-bordered">
+                                        <thead class="bg-secondary">
                                             <tr>
                                                 <th>#</th>
                                                 <th>Producto</th>
@@ -91,17 +96,7 @@
                                         <tfoot>
                                             <tr>
                                                 <th></th>
-                                                <th colspan="4">Sumas</th>
-                                                <th colspan="2"><span id="sumas">0</span></th>
-                                            </tr>
-                                            <tr>
-                                                <th></th>
-                                                <th colspan="4">IVA</th>
-                                                <th colspan="2"><span id="iva">0</span></th>
-                                            </tr>
-                                            <tr>
-                                                <th></th>
-                                                <th colspan="4">Total</th>
+                                                <th colspan="4">Total $</th>
                                                 <th colspan="2"><input type="hidden" name="total" value="0"
                                                         id="inputTotal"><span id="total">0</span></th>
                                             </tr>
@@ -121,11 +116,11 @@
                     </div>
                 </div>
                 <!--venta-->
-                <div class="col-md-4">
-                    <div class="text-white bg-success p-1 text-center">
-                        Datos generales
+                <div class="col-md-3 border border-2 border-info rounded-4">
+                    <div class="p-1 mt-3 text-center bg-info">
+                        Datos de la venta
                     </div>
-                    <div class="p-3 border border-3 border-success">
+                    <div class="p-3">
                         <div class="row">
                             <!--cliente-->
                             <div class="col-md-12 mb-2">
@@ -141,56 +136,52 @@
                                     <small class="text-danger">{{ '*' . $message }}</small>
                                 @enderror
                             </div>
-                            <!--Tipo de comprobante-->
-                            <div class="col-md-12 mb-2">
-                                <label for="comprobante_id" class="form-label">Comprobante</label>
-                                <select name="comprobante_id" id="comprobante_id" class="form-control selectpicker"
-                                    title="Seleccione un comprobante" data-live-search="true" data-size="4">
-                                    @foreach ($comprobantes as $comprobante)
-                                        <option value="{{ $comprobante->id }}">{{ $comprobante->tipo_comprobante }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('comprobante_id')
-                                    <small class="text-danger">{{ '*' . $message }}</small>
-                                @enderror
-                            </div>
 
-                            <!--Numero de comprobante-->
-                            <div class="col-md-12 mb-2">
-                                <label for="numero_comprobante" class="form-label">Numero de comprobante</label>
-                                <input type="text" name="numero_comprobante" id="numero_comprobante"
-                                    class="form-control">
-                                @error('numero_comprobante')
-                                    <small class="text-danger">{{ '*' . $message }}</small>
-                                @enderror
-                            </div>
-                            <!--Impuesto-->
-                            <div class="col-md-6 mb-2">
-                                <label for="impuesto" class="form-label">Impuesto</label>
-                                <input type="text" name="impuesto" id="impuesto" class="form-control border-success"
-                                    readonly>
-                                @error('impuesto')
-                                    <small class="text-danger">{{ '*' . $message }}</small>
-                                @enderror
-                            </div>
+
                             <!--Fecha-->
                             @php
                                 use Carbon\Carbon;
                                 $fecha_hora = Carbon::now()->toDateTimeString();
                             @endphp
 
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-12 mb-3">
                                 <label for="fecha" class="form-label">Fecha</label>
-                                <input type="date" name="fecha" id="fecha" class="form-control border-success"
+                                <input type="date" name="fecha" id="fecha" class="form-control"
                                     value="{{ date('Y-m-d') }}">
                                 <input type="hidden" name="fecha_hora" value="{{ $fecha_hora }}">
                             </div>
+
+                            <div class="p-1 text-center bg-info">
+                                Realizar venta
+                            </div>
+                            <!--total-->
+                            <div class="col-md-12 mb-3 mt-2">
+                                <label for="totalventa" class="form-label">Realizar venta</label>
+                                <input disabled type="number" name="totalventa" id="totalventa"
+                                    class="form-control text-center" value="0.00">
+
+                            </div>
+                            <!--cantidad-->
+                            <div class="col-md-6 mb-3">
+                                <label for="pago" class="form-label">Cantidad</label>
+                                <input type="number" name="pago" id="pago" class="form-control text-center"
+                                    placeholder="$ 0.00">
+                            </div>
+                            <!--cambio-->
+                            <div class="col-md-6 mb-3">
+                                <label for="cambio" class="form-label">Cambio</label>
+                                <input disabled type="number" name="cambio" id="cambio"
+                                    class="form-control text-center" placeholder="$ 0.00">
+                            </div>
+                            <div class="col-md-12 text-center mb-4">
+                                <button type="button" id="calcularCambio" class="btn btn-dark">Aceptar</button>
+                            </div>
+
                             <!--user-->
                             <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
                             <!--Botones-->
                             <div class="col-md-12 text-center">
-                                <button type="submit" id="btnGuardar" class="btn btn-success">Guardar</button>
+                                <button type="submit" id="btnGuardar" class="btn btn-success">Finalizar venta</button>
                             </div>
                         </div>
                     </div>
@@ -230,30 +221,38 @@
         let cont = 0;
         let subtotal = [];
         let sumas = 0;
-        let iva = 0;
         let total = 0;
-
-        //Constantes
-
-        let IMPUESTO = 16;
+        let nuevoSubtotal = 0;
+        /**
+         * cuando el dom este cargado y haya un cambio en el producto seleccionado,
+         * se ejecute la funcion de mostrarValores 
+         **/
 
         $(document).ready(function() {
             $('#producto_id').change(mostrarValores);
+
+            //    codigoBarras();
         });
 
+        // click en el boton de agregar, va llenar la tabla dinámicamente
         $('#btn_agregar').click(function() {
             agregarProducto();
         });
 
+        // click en el boton cancelar venta, va eliminar las filas en la tabla dinámica
         $('#btnCancelarVenta').click(function() {
             cancelarVenta();
         });
 
-        $('#impuesto').val(IMPUESTO + '%');
 
         desabilitarbotones();
 
-        //Muestra los valores en la tabla de 'detalle de la venta' una vez que se haya seleccionado un producto'
+        /**
+         * Una vez que se selecciona un producto, se muestra el stock 
+         * y el precio de venta
+         * se obtiene del value del select
+         * 
+         */
         function mostrarValores() {
             let dataProducto = document.getElementById('producto_id').value.split('-');
             $('#stock').val(dataProducto[1]);
@@ -269,13 +268,16 @@
             let precioVenta = $('#precio_venta').val();
             let descuento = $('#descuento').val();
             let stock = $('#stock').val();
+            let pago = $('#pago').val();
+            let cambio = $('#cambio');
 
+            //Si no hay descuento, establece el campo con un valor de 0
             if (descuento == '') {
                 descuento = 0;
             }
 
             //Validaciones
-            //1. para que los campos no estén vacíos
+            //1. para que los campos no estén vacíos (producto y cantidad)
             if (idProducto != '' && cantidad != '') {
                 //2. Para que los valores ingresados sean correctos
                 if (parseInt(cantidad) < 0 || parseFloat(descuento) < 0) {
@@ -285,61 +287,130 @@
                     if (parseInt(cantidad) > parseInt(stock)) {
                         alerta('No hay suficiente stock');
                     } else {
-                        //calcular valores
-                        subtotal[cont] = cantidad * precioVenta - descuento;
-                        sumas += subtotal[cont];
-                        iva = sumas / 100 * IMPUESTO;
+                        let productoExistente = false;
+                        //Actualiza los valores de la fila (cantidad, descuento, subtotal, total)
+                        $('#tabla_detalle tbody tr').each(function() {
+                            let filaTabla = $(this);
+                            let idProductoExistente = filaTabla.find('input[name="arrayidproducto[]"]').val();
 
-                        total = sumas + iva;
+                            if (idProductoExistente == idProducto) {
+                                productoExistente = true;
 
-                        //Crear fila
-                        let fila = '<tr id="fila' + cont + '">' +
-                            ' <td>' + (cont + 1) + '</td>' +
-                            ' <td><input type="hidden" name="arrayidproducto[]" value="' + idProducto + '">' +
-                            nameProducto +
-                            '</td>' +
-                            ' <td><input type="hidden" name="arraycantidad[]" value="' + cantidad + '">' + cantidad +
-                            '</td>' +
-                            ' <td><input type="hidden" name="arrayprecioventa[]" value="' + precioVenta + '">' +
-                            precioVenta + '</td>' +
-                            ' <td><input type="hidden" name="arraydescuento[]" value="' + descuento + '">' +
-                            descuento +
-                            '</td>' +
-                            ' <td>' + subtotal[cont] + '</td>' +
-                            ' <td><button type="button" class="btn btn-danger" onClick="eliminarProducto(' + cont +
-                            ')"><i class="fa-solid fa-trash"></i></button></td>' +
-                            ' </tr>';
+                                let cantidadInput = filaTabla.find('input[name="arraycantidad[]"]');
+                                //clase del span
+                                let cantidadTexto = filaTabla.find('td:eq(2) .cantidad-texto');
 
+                                let cantidadActual = parseInt(cantidadInput.val());
+                                let cantidadAgregada = parseInt(cantidad);
+
+
+                                if (isNaN(cantidadActual)) cantidadActual = 0;
+                                if (isNaN(cantidadAgregada)) cantidadAgregada = 0;
+
+                                let nuevaCantidad = cantidadActual + cantidadAgregada;
+                                cantidadInput.val(nuevaCantidad);
+
+                                //establece la nueva cantidad en un span
+                                if (cantidadTexto.length == 0) {
+                                    filaTabla.find('td:eq(2)').append('<span class="cantidad-texto">' + nuevaCantidad + '</span>');
+                                } else {
+                                    cantidadTexto.text(nuevaCantidad);
+                                }
+
+                                let precio = parseFloat(precioVenta);
+                                let desc = parseFloat(descuento);
+
+                                if (isNaN(precio)) precio = 0;
+                                if (isNaN(desc)) desc = 0;
+
+                                nuevoSubtotal = (nuevaCantidad * precio) - desc;
+
+
+
+                                // Actualiza subtotal visible
+                                let subtotalTexto = filaTabla.find('td:eq(5) .subtotal-texto');
+                                if (subtotalTexto.length == 0) {
+                                    filaTabla.find('td:eq(5)').append('<span class="subtotal-texto">' +
+                                        nuevoSubtotal.toFixed(2) + '</span>');
+                                } else {
+                                    subtotalTexto.text(nuevoSubtotal.toFixed(2));
+                                }
+
+                                // Actualiza el total general sumando solo la diferencia
+                                total = total - ((cantidadActual * precio) - desc) + nuevoSubtotal;
+
+                                //sale del each
+                                return false;
+                            }
+                        });
+
+                        //si el producto no existe, agrega una nueva fila
+                        if (!productoExistente) {
+                            //calcular valores
+                            subtotal[cont] = parseInt(cantidad) * parseFloat(precioVenta) - parseFloat(descuento);
+                            total += subtotal[cont];
+
+                            //Crear fila 
+                            let fila = '<tr id="fila' + cont + '">' +
+                                ' <td>' + (cont + 1) + '</td>' +
+                                ' <td><input type="hidden" name="arrayidproducto[]" value="' + idProducto + '">' +
+                                nameProducto + '</td>' +
+                                ' <td><input type="hidden" name="arraycantidad[]" value="' + cantidad +
+                                '"><span class="cantidad-texto">' + cantidad + '</span></td>' +
+                                ' <td><input type="hidden" name="arrayprecioventa[]" value="' + precioVenta + '">' +
+                                precioVenta + '</td>' +
+                                ' <td><input type="hidden" name="arraydescuento[]" value="' + descuento + '">' + descuento +
+                                '</td>' +
+                                ' <td><span class="subtotal-texto">' + subtotal[cont].toFixed(2) + '</span></td>' +
+                                ' <td><button type="button" class="btn btn-danger" onClick="eliminarProducto(' + cont +
+                                ')"><i class="fa-solid fa-trash"></i></button></td>' +
+                                '</tr>';
+
+
+                            cont++;
+                            //pintar la informacion en la tabla
+                            $('#tabla_detalle').append(fila);
+
+                        }
 
                         //acciones despues de añadir la fila
-                        $('#tabla_detalle').append(fila);
                         limpiarCampos();
-                        cont++;
                         desabilitarbotones();
 
                         //mostrar los campos calculados
                         $('#sumas').html(sumas);
-                        $('#iva').html(iva);
                         $('#total').html(total);
-                        $('#impuesto').val(iva);
                         $('#inputTotal').val(total);
+                        $('#totalventa').val(total);
+
+                        //mostrar cambio
+                        let btnCalcularCambio = $('#calcularCambio');
+
+                        btnCalcularCambio.on('click', function() {
+                            let pago = parseFloat($('#pago').val());
+                            let total = parseFloat($('#inputTotal').val());
+                            let cambio = pago - total;
+                            if (parseFloat(cambio) < 0 || parseFloat(pago) < parseFloat(cambio)) {
+                                alerta('El pago no puede ser menor que el total');
+                                $('#pago').val('');
+                                $('#cambio').val('');
+                            } else {
+                                $('#cambio').val(cambio);
+                            }
+                        });
                     }
                 }
             } else {
                 alerta('Faltan campos por llenar');
             }
-
         }
-
-
-        //Establecer los campos vacios una vez que se haya aregado un producto
+        //Establece los campos vacios una vez que se haya aregado un producto
         function limpiarCampos() {
             $('#cantidad').val('');
             $('#descuento').val('');
             $('#precio_venta').val('');
             $('#stock').val('');
             let select = $('#producto_id');
-            select.selectpicker();
             select.selectpicker('val', '');
         }
 
@@ -355,16 +426,15 @@
 
         //funcion para eliminar un registro
         function eliminarProducto(indice) {
+            const subtotalTexto = $('#fila' + indice).find('td:eq(5)').text();
+            const subtotalFila = parseFloat(subtotalTexto);
             //sumas
-            sumas -= subtotal[indice];
-            iva = sumas / 100 * IMPUESTO;
-            total = sumas + iva;
-
+           total -= subtotalFila;
+           
+        
             //mostrar los campos calculados
             $('#sumas').html(sumas);
-            $('#iva').html(iva);
             $('#total').html(total);
-            $('#impuesto').val(iva);
             $('#inputTotal').val(total);
 
             //Eliminar la fila de la tabla
@@ -376,18 +446,17 @@
         function cancelarVenta() {
             $('#tabla_detalle > tbody').empty();
 
-            //reiniciar valores de las variables
+            //reinicia valores de las variables
             cont = 0;
             subtotal = [];
             sumas = 0;
-            iva = 0;
             total = 0;
 
-            //mostrar los campos calculados
+            //muestra los campos calculados
             $('#sumas').html(sumas);
-            $('#iva').html(iva);
+
             $('#total').html(total);
-            $('#impuesto').val(IMPUESTO + '%');
+
             $('#inputTotal').val(total);
 
             limpiarCampos();
@@ -404,5 +473,95 @@
                 $('#btnGuardar').show();
             }
         }
+        /**
+         * Verifica si un producto ya esta en una fila de la tabla,
+         * de ser asi, actualiza la cantidad, el subtotal y total
+         */
+        function actualizarfila() {
+
+            $('#tabla_detalle tbody tr').each(function() {
+                let filaTabla = $(this);
+                let idProductoExistente = filaTabla.find('input[name="arrayidproducto[]"]').val();
+
+                if (idProductoExistente == idProducto) {
+                    productoExistente = true;
+
+                    let cantidadInput = filaTabla.find('input[name="arraycantidad[]"]');
+                    //clase del span
+                    let cantidadTexto = filaTabla.find('td:eq(2) .cantidad-texto');
+
+                    let cantidadActual = parseInt(cantidadInput.val());
+                    let cantidadAgregada = parseInt(cantidad);
+
+
+                    if (isNaN(cantidadActual)) cantidadActual = 0;
+                    if (isNaN(cantidadAgregada)) cantidadAgregada = 0;
+
+                    let nuevaCantidad = cantidadActual + cantidadAgregada;
+                    cantidadInput.val(nuevaCantidad);
+
+                    //establece la nueva cantidad en un span
+                    if (cantidadTexto.length == 0) {
+                        filaTabla.find('td:eq(2)').append('<span class="cantidad-texto">' +
+                            nuevaCantidad + '</span>');
+                    } else {
+                        cantidadTexto.text(nuevaCantidad);
+                    }
+
+
+                    let precio = parseFloat(precioVenta);
+                    let desc = parseFloat(descuento);
+
+                    if (isNaN(precio)) precio = 0;
+                    if (isNaN(desc)) desc = 0;
+
+                    let nuevoSubtotal = (nuevaCantidad * precio) - desc;
+
+
+
+                    // Actualiza subtotal visible
+                    let subtotalTexto = filaTabla.find('td:eq(5) .subtotal-texto');
+                    if (subtotalTexto.length == 0) {
+                        filaTabla.find('td:eq(5)').append('<span class="subtotal-texto">' + nuevoSubtotal.toFixed(
+                            2) + '</span>');
+                    } else {
+                        subtotalTexto.text(nuevoSubtotal.toFixed(2));
+                    }
+
+                    // Actualiza el total general sumando solo la diferencia
+                    total = total - ((cantidadActual * precio) - desc) +
+                        nuevoSubtotal;
+
+                    //sale del each
+                    return false;
+                }
+            });
+
+        }
+
+        //switch para codigo de barras
+        /*   function codigoBarras() {
+               let swicthBarra = document.getElementById('switch');
+               let selectProducto = $('#producto_id');
+               swicthBarra.addEventListener('change', function() {
+                    $('#producto_id').empty(); 
+
+                   if (this.checked) {
+                       console.log("seleccionado");
+                       selectProducto.prop('disabled', true);
+                 
+                   } else {
+                       console.log("no seleccionado");
+                       selectProducto.prop('disabled', false);
+                      
+                   }
+                    // Refrescar el select
+           selectProducto.selectpicker('refresh');
+
+           // Reasignar el evento una única vez
+           selectProducto.on('change', mostrarValores);
+
+               });
+           }*/
     </script>
 @endpush
