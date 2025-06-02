@@ -116,7 +116,7 @@
                     </div>
                 </div>
                 <!--venta-->
-                <div class="col-md-3 border border-2 border-info rounded-4">
+                <div class="col-md-3 border border-2 border-info rounded-4 h-50">
                     <div class="p-1 mt-3 text-center bg-info">
                         Datos de la venta
                     </div>
@@ -149,32 +149,6 @@
                                 <input type="date" name="fecha" id="fecha" class="form-control"
                                     value="{{ date('Y-m-d') }}">
                                 <input type="hidden" name="fecha_hora" value="{{ $fecha_hora }}">
-                            </div>
-
-                            <div class="p-1 text-center bg-info">
-                                Realizar venta
-                            </div>
-                            <!--total-->
-                            <div class="col-md-12 mb-3 mt-2">
-                                <label for="totalventa" class="form-label">Realizar venta</label>
-                                <input disabled type="number" name="totalventa" id="totalventa"
-                                    class="form-control text-center" value="0.00">
-
-                            </div>
-                            <!--cantidad-->
-                            <div class="col-md-6 mb-3">
-                                <label for="pago" class="form-label">Cantidad</label>
-                                <input type="number" name="pago" id="pago" class="form-control text-center"
-                                    placeholder="$ 0.00">
-                            </div>
-                            <!--cambio-->
-                            <div class="col-md-6 mb-3">
-                                <label for="cambio" class="form-label">Cambio</label>
-                                <input disabled type="number" name="cambio" id="cambio"
-                                    class="form-control text-center" placeholder="$ 0.00">
-                            </div>
-                            <div class="col-md-12 text-center mb-4">
-                                <button type="button" id="calcularCambio" class="btn btn-dark">Aceptar</button>
                             </div>
 
                             <!--user-->
@@ -268,8 +242,7 @@
             let precioVenta = $('#precio_venta').val();
             let descuento = $('#descuento').val();
             let stock = $('#stock').val();
-            let pago = $('#pago').val();
-            let cambio = $('#cambio');
+           
 
             //Si no hay descuento, establece el campo con un valor de 0
             if (descuento == '') {
@@ -383,21 +356,6 @@
                         $('#inputTotal').val(total);
                         $('#totalventa').val(total);
 
-                        //mostrar cambio
-                        let btnCalcularCambio = $('#calcularCambio');
-
-                        btnCalcularCambio.on('click', function() {
-                            let pago = parseFloat($('#pago').val());
-                            let total = parseFloat($('#inputTotal').val());
-                            let cambio = pago - total;
-                            if (parseFloat(cambio) < 0 || parseFloat(pago) < parseFloat(cambio)) {
-                                alerta('El pago no puede ser menor que el total');
-                                $('#pago').val('');
-                                $('#cambio').val('');
-                            } else {
-                                $('#cambio').val(cambio);
-                            }
-                        });
                     }
                 }
             } else {
@@ -536,32 +494,7 @@
                     return false;
                 }
             });
-
         }
 
-        //switch para codigo de barras
-        /*   function codigoBarras() {
-               let swicthBarra = document.getElementById('switch');
-               let selectProducto = $('#producto_id');
-               swicthBarra.addEventListener('change', function() {
-                    $('#producto_id').empty(); 
-
-                   if (this.checked) {
-                       console.log("seleccionado");
-                       selectProducto.prop('disabled', true);
-                 
-                   } else {
-                       console.log("no seleccionado");
-                       selectProducto.prop('disabled', false);
-                      
-                   }
-                    // Refrescar el select
-           selectProducto.selectpicker('refresh');
-
-           // Reasignar el evento una única vez
-           selectProducto.on('change', mostrarValores);
-
-               });
-           }*/
     </script>
 @endpush

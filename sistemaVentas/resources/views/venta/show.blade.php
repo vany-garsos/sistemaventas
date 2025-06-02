@@ -18,31 +18,6 @@
     </div>
 
     <div class="container w-100 rounded p-4 mt-3">
-        <!--tipo comprobante-->
-        <div class="row mb-2">
-            <div class="col-sm-4">
-                <div class="input-group mb-3">
-                    <span class="input-group-text"><i class="fa-solid fa-file"></i></span>
-                    <input disabled type="text" class="form-control" value="tipo de comprobante: ">
-                </div>
-            </div>
-            <div class="col-sm-8">
-                <input disabled type="text" class="form-control" value="{{$venta->comprobante->tipo_comprobante}}">
-            </div>
-        </div>
-         <!--numero de comprobante-->
-        <div class="row mb-2">
-            <div class="col-sm-4">
-                <div class="input-group mb-3">
-                    <span class="input-group-text"><i class="fa-solid fa-hashtag"></i></span>
-                    <input disabled type="text" class="form-control" value="Número de comprobante: ">
-                </div>
-            </div>
-            <div class="col-sm-8">
-                <input disabled type="text" class="form-control" value="{{$venta->numero_comprobante}}">
-            </div>
-        </div>
-
         <!--Cliente-->
         <div class="row mb-2">
             <div class="col-sm-4">
@@ -94,18 +69,6 @@
             </div>
         </div>
 
-         <!--Impuesto-->
-        <div class="row mb-2">
-            <div class="col-sm-4">
-                <div class="input-group mb-3">
-                    <span class="input-group-text"><i class="fa-solid fa-percent"></i></span>
-                    <input disabled type="text" class="form-control" value="Impuesto: ">
-                </div>
-            </div>
-            <div class="col-sm-8">
-                <input id="input-impuesto" disabled type="text" class="form-control" value="{{$venta->impuesto}}">
-            </div>
-        </div>
 
         <!--tabla-->
         <div class="card mb-4">

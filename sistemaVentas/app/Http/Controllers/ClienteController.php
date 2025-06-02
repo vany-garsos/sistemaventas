@@ -56,8 +56,8 @@ class ClienteController extends Controller
 
             DB::commit();
         }catch(Exception $e){
-         
             DB::rollBack();
+            
         }
     
 

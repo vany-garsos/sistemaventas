@@ -29,39 +29,26 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [homeController::class, 'index'])->name('panel');
 
 
-
-Route::view('/categorias','categoria.index');
 Route::resource('categorias', CategoriaController::class);
 
 
-
-Route::view('/marcas','marca.index');
 Route::resource('marcas', MarcaController::class);
 
 
-
-
-Route::view('/productos','producto.index');
 Route::resource('productos', ProductoController::class);
 
 
-
-
-Route::view('/clientes','cliente.index');
 Route::resource('clientes', ClienteController::class);
 
 
-
-Route::view('/proveedores', 'proveedore.index');
 Route::resource('proveedores', ProveedoreController::class);
 
 
-Route::view('/compras', 'compra.index');
 Route::resource('compras', CompraController::class);
 
 
-Route::view('/ventas', 'venta.index');
 Route::resource('ventas', ventaController::class);
+
 
 
 Route::resource('users', userController::class);
@@ -69,6 +56,8 @@ Route::resource('roles', roleController::class);
 
 
 Route::resource('profile', PorfileController::class);
+
+
 
 Route::get('/login', [loginController::class, 'index'])->name('login');
 Route::post('/login', [loginController::class, 'login']);
