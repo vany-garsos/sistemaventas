@@ -38,6 +38,7 @@ class ventaController extends Controller
                 ->whereDate('fecha_hora', $fecha)
                 ->latest()
                 ->get();
+
         } else if ($filtro == 'mes_anio') {
                $request->validate([
                 'mes' => 'required',
@@ -95,6 +96,7 @@ class ventaController extends Controller
                 ->whereYear('fecha_hora', $year)
                 ->latest()
                 ->get();
+
         } else if($filtro == 'rago'){
             $request->validate([
                 'semana_inicio' => 'required',
@@ -108,20 +110,22 @@ class ventaController extends Controller
                 ->whereBetween('fecha_hora', [$date1, $date2])
                 ->latest()
                 ->get();
+
         } else if ($filtro == 'todos'){
+
             $ventas = Venta::with(['comprobante', 'cliente.persona', 'user'])
                 ->where('estado', 1)
                 ->latest()
                 ->get();
         }
          else{
+
             $ventas = Venta::with(['comprobante', 'cliente.persona', 'user'])
                 ->where('estado', 1)
                 ->latest()
                 ->get();
         }
         
-
         return view('venta.index', compact('ventas'));
     }
 
@@ -130,10 +134,12 @@ class ventaController extends Controller
      */
     public function create()
     {
+        //se guarda la ultima compra registrada de cada producto
         $subquery = DB::table('compra_producto')
             ->select('producto_id', DB::raw('MAX(created_at) as max_created_at'))
             ->groupBy('producto_id');
 
+            //lista los productos activos y con stock con el precio de venta reciente
         $productos = Producto::join('compra_producto as cpr', function ($join) use ($subquery) {
             $join->on('cpr.producto_id', '=', 'productos.id')
                 ->whereIn('cpr.created_at', function ($query) use ($subquery) {
@@ -204,8 +210,8 @@ class ventaController extends Controller
             }
 
             DB::commit();
-        } catch (\Throwable $e) {
-            dd($e);
+        } catch (Exception $e) {
+
             DB::rollBack();
         }
 
@@ -248,23 +254,5 @@ class ventaController extends Controller
         return redirect()->route('ventas.index')->with('success', 'Venta eliminada exitosamente');
     }
 
-    /**
-     * Filtrar por fechas
-     */
-    public function filtro(Request $request)
-    {
-        $filtro = $request->input('filtro');
-        if ($filtro == 'dia') {
-
-            $request->validate([
-                'fecha_venta' => 'required'
-            ]);
-            $ventas = Venta::with(['comprobante', 'cliente.persona', 'user'])
-                ->where('estado', 1)
-                ->where('fecha_venta', '2025-06-02')
-                ->latest()
-                ->get();
-        }
-        return view('venta.index', compact('ventas'));
-    }
+   
 }

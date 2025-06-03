@@ -103,16 +103,8 @@
                             <th colspan="5"></th>
                         </tr>
                         <tr>
-                            <th colspan="4">Sumas: </th>
-                            <th id="th_suma"></th>
-                        </tr>
-                         <tr>
-                            <th colspan="4">IVA: </th>
-                            <th id="th_iva"></th>
-                        </tr>
-                         <tr>
                             <th colspan="4">Total: </th>
-                            <th id="th_total"></th>
+                            <th id="th_suma"></th>
                         </tr>
                     </tfoot>
                 </table>
@@ -140,8 +132,6 @@ function calcularValores(){
     }
 
     $('#th_suma').html(cont);
-    $('#th_iva').html(impuesto);
-    $('#th_total').html(cont + parseFloat(impuesto));
 
 }
 </script>

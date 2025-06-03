@@ -49,8 +49,6 @@ Route::resource('compras', CompraController::class);
 
 Route::resource('ventas', ventaController::class);
 
-
-
 Route::resource('users', userController::class);
 Route::resource('roles', roleController::class);
 
