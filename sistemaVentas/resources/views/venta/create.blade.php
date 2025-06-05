@@ -41,13 +41,13 @@
                                 </select>
                             </div>
                             <!--activar seleccion del codigo de barras
-                                                                                                            <div class="col-md-3 mb-2">
-                                                                                                                <div class="form-check form-switch">
-                                                                                                                    <input class="form-check-input" type="checkbox" name="switch" id="switch">
-                                                                                                                    <label class="form-check-label" for="switch">Codigo de barras</label>
-                                                                                                                </div>
+                                                                                                                <div class="col-md-3 mb-2">
+                                                                                                                    <div class="form-check form-switch">
+                                                                                                                        <input class="form-check-input" type="checkbox" name="switch" id="switch">
+                                                                                                                        <label class="form-check-label" for="switch">Codigo de barras</label>
+                                                                                                                    </div>
 
-                                                                                                            </div-->
+                                                                                                                </div-->
 
                             <!--stock-->
                             <div class="col-md-3 mb-2">
@@ -116,7 +116,7 @@
                     </div>
                 </div>
                 <!--venta-->
-                <div class="col-md-3 border border-2 border-info rounded-4 h-50">
+                <div class="col-md-3 h-50">
                     <div class="p-1 mt-3 text-center bg-info">
                         Datos de la venta
                     </div>
@@ -242,7 +242,7 @@
             let precioVenta = $('#precio_venta').val();
             let descuento = $('#descuento').val();
             let stock = $('#stock').val();
-           
+
 
             //Si no hay descuento, establece el campo con un valor de 0
             if (descuento == '') {
@@ -285,7 +285,8 @@
 
                                 //establece la nueva cantidad en un span
                                 if (cantidadTexto.length == 0) {
-                                    filaTabla.find('td:eq(2)').append('<span class="cantidad-texto">' + nuevaCantidad + '</span>');
+                                    filaTabla.find('td:eq(2)').append('<span class="cantidad-texto">' +
+                                        nuevaCantidad + '</span>');
                                 } else {
                                     cantidadTexto.text(nuevaCantidad);
                                 }
@@ -387,9 +388,9 @@
             const subtotalTexto = $('#fila' + indice).find('td:eq(5)').text();
             const subtotalFila = parseFloat(subtotalTexto);
             //sumas
-           total -= subtotalFila;
-           
-        
+            total -= subtotalFila;
+
+
             //mostrar los campos calculados
             $('#sumas').html(sumas);
             $('#total').html(total);
@@ -495,6 +496,5 @@
                 }
             });
         }
-
     </script>
 @endpush

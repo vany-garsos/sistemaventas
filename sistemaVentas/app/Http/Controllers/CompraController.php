@@ -27,7 +27,7 @@ class CompraController extends Controller
      */
     public function index()
     {
-        $compras = Compra::with('comprobante', 'proveedore.persona')
+        $compras = Compra::with('proveedore.persona')
         ->where('estado', 1)->latest()->get();
 
 
@@ -42,22 +42,20 @@ class CompraController extends Controller
         $proveedores = Proveedore::whereHas('persona', function($query){
             $query->where('estado',1);
         })->get();
-        $comprobantes = Comprobante::all();
         $productos = Producto::where('estado',1)->get();
-        return view('compra.create', compact('proveedores', 'comprobantes', 'productos'));
+        return view('compra.create', compact('proveedores', 'productos'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(StoreCompraRequest $request)
-    {
+    {        
         try {
             DB::beginTransaction();
 
             $compra = Compra::create($request->validated());
             //llenar tabla compra producto
-
             //1.Recuperar los arrays
             $arrayProducto_id = $request->get('arrayidproducto');
             $arrayCantidad = $request->get('arraycantidad');
@@ -104,9 +102,7 @@ class CompraController extends Controller
      */
     public function show(Compra $compra)
     {
-       // dd($compra->productos);
         return view('compra.show', compact('compra'));
-
     }
 
     /**

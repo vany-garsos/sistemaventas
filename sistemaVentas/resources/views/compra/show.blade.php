@@ -18,31 +18,6 @@
     </div>
 
     <div class="container w-100 rounded p-4 mt-3">
-        <!--tipo comprobante-->
-        <div class="row mb-2">
-            <div class="col-sm-4">
-                <div class="input-group mb-3">
-                    <span class="input-group-text"><i class="fa-solid fa-file"></i></span>
-                    <input disabled type="text" class="form-control" value="tipo de comprobante: ">
-                </div>
-            </div>
-            <div class="col-sm-8">
-                <input disabled type="text" class="form-control" value="{{$compra->comprobante->tipo_comprobante}}">
-            </div>
-        </div>
-         <!--numero de comprobante-->
-        <div class="row mb-2">
-            <div class="col-sm-4">
-                <div class="input-group mb-3">
-                    <span class="input-group-text"><i class="fa-solid fa-hashtag"></i></span>
-                    <input disabled type="text" class="form-control" value="Número de comprobante: ">
-                </div>
-            </div>
-            <div class="col-sm-8">
-                <input disabled type="text" class="form-control" value="{{$compra->numero_comprobante}}">
-            </div>
-        </div>
-
         <!--Proveedor-->
         <div class="row mb-2">
             <div class="col-sm-4">
@@ -82,18 +57,6 @@
             </div>
         </div>
 
-         <!--Impuesto-->
-        <div class="row mb-2">
-            <div class="col-sm-4">
-                <div class="input-group mb-3">
-                    <span class="input-group-text"><i class="fa-solid fa-percent"></i></span>
-                    <input disabled type="text" class="form-control" value="Impuesto: ">
-                </div>
-            </div>
-            <div class="col-sm-8">
-                <input id="input-impuesto" disabled type="text" class="form-control" value="{{$compra->impuesto}}">
-            </div>
-        </div>
 
         <!--tabla-->
         <div class="card mb-4">
@@ -128,16 +91,8 @@
                             <th colspan="5"></th>
                         </tr>
                         <tr>
-                            <th colspan="4">Sumas: </th>
+                            <th colspan="4">Total: $ </th>
                             <th id="th_suma"></th>
-                        </tr>
-                         <tr>
-                            <th colspan="4">IVA: </th>
-                            <th id="th_iva"></th>
-                        </tr>
-                         <tr>
-                            <th colspan="4">Total: </th>
-                            <th id="th_total"></th>
                         </tr>
                     </tfoot>
                 </table>
@@ -153,7 +108,7 @@
 //variables
 let filasSubtotal = document.getElementsByClassName('td-subtotal');
 let cont = 0;
-let impuesto = $('#input-impuesto').val();
+
 
 $(document).ready(function(){
     calcularValores();
@@ -165,8 +120,6 @@ function calcularValores(){
     }
 
     $('#th_suma').html(cont);
-    $('#th_iva').html(impuesto);
-    $('#th_total').html(cont + impuesto);
 
 }
 </script>

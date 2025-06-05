@@ -4,6 +4,10 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
+
 class StoreCompraRequest extends FormRequest
 {
     /**
@@ -22,15 +26,12 @@ class StoreCompraRequest extends FormRequest
     public function rules(): array
     {
 
-        //inspeccionar
-    // dd($this->all());
         return [
             'proveedore_id'=>'required|exists:proveedores,id',
-            'comprobante_id'=>'required|exists:comprobantes,id',
-            'numero_comprobante' => 'required|unique:compras,numero_comprobante|max:255',
-            'impuesto'=>'required',
             'fecha_hora'=>'required',
             'total' => 'required'
         ];
     }
+
+
 }

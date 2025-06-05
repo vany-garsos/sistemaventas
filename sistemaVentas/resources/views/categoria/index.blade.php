@@ -30,12 +30,14 @@
             <li class="breadcrumb-item active">Categorias</li>
         </ol>
 
-        @can('crear-categoria')
+        
             <div class="mb-4">
+                @can('crear-categoria')
                 <a href="{{ route('categorias.create') }}"><button type="button" class="btn btn-primary">Añadir un nuevo
                         registro</button></a>
+                @endcan
             </div>
-        @endcan
+        
 
         <div class="card mb-4">
             <div class="card-header">
@@ -49,9 +51,7 @@
                             <th>Nombre</th>
                             <th>Descripcion</th>
                             <th>Estado</th>
-                            @can('editar-categoria' || 'eliminar-categoria')
-                                <th>Acciones</th>
-                            @endcan
+                            <th>Acciones</th>
                         </tr>
                     </thead>
 

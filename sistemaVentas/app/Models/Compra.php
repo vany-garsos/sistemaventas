@@ -13,9 +13,6 @@ class Compra extends Model
         return $this->belongsTo(Proveedore::class);
     }
 
-    public function comprobante(){
-        return $this->belongsTo(Comprobante::class);
-    }
 
     public function productos(){
         return $this->belongsToMany(Producto::class)
@@ -24,10 +21,7 @@ class Compra extends Model
 
     protected $fillable = [
         'fecha_hora',
-        'impuesto',
-        'numero_comprobante',
         'total',
-        'comprobante_id',
         'proveedore_id'
     ];
 }

@@ -17,8 +17,6 @@ class homeController extends Controller
         $numeroventas = 0;
         $datos = collect();
 
-
-
         if ($filtro == 'dia') {
 
             $request->validate([

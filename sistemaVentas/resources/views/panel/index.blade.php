@@ -20,11 +20,11 @@
 
                 <div class="col-6 col-lg-2">
                     <div>
-                        <label class="form-label" for="filtro">Selecciona el filtro</label>
+                        <label class="form-label" for="filtro">Selecciona un filtro</label>
                     </div>
                     <div>
                         <select class="form-control" name="filtro" id="filtro">
-                            <option value="">Selecciona una opción</option>
+                            <option value="">Elige</option>
                             <option value="dia" {{ old('filtro') == 'dia' ? 'selected' : '' }}>Por día</option>
                             <option value="mes_anio" {{ old('filtro') == 'mes_anio' ? 'selected' : '' }}>Por mes y año
                             </option>

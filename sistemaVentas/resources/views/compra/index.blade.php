@@ -47,13 +47,10 @@
                 <table id="datatablesSimple" class="table table-striped">
                     <thead>
                         <tr>
-                            <th>Comprobante</th>
                             <th>Proveedor</th>
                             <th>Fecha y hora</th>
                             <th>Total</th>
-                            @can('editar-compra' || 'eliminar-compra')
-                                <th>Acciones</th>
-                            @endcan
+                            <th>Acciones</th>
                         </tr>
                     </thead>
 
@@ -61,12 +58,6 @@
                         @foreach ($compras as $compra)
                             <tr>
                                 <td>
-                                    <p class="fw-semibold mb-1">{{ $compra->comprobante->tipo_comprobante }}</p>
-                                    <p class="text-muted mb-0">{{ $compra->numero_comprobante }}</p>
-                                </td>
-                                <td>
-                                    <p class="fw-semibold mb-1">{{ ucfirst($compra->proveedore->persona->tipo_persona) }}
-                                    </p>
                                     <p class="text-muted mb-0">{{ $compra->proveedore->persona->razon_social }}</p>
                                 </td>
                                 <td>
