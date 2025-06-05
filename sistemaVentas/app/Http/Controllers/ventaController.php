@@ -33,7 +33,7 @@ class ventaController extends Controller
                 'fecha_venta' => 'required'
             ]);
             $fecha = $request->input('fecha_venta');
-            $ventas = Venta::with(['comprobante', 'cliente.persona', 'user'])
+            $ventas = Venta::with(['cliente.persona', 'user'])
                 ->where('estado', 1)
                 ->whereDate('fecha_hora', $fecha)
                 ->latest()
@@ -120,7 +120,7 @@ class ventaController extends Controller
         }
          else{
 
-            $ventas = Venta::with(['comprobante', 'cliente.persona', 'user'])
+            $ventas = Venta::with(['cliente.persona', 'user'])
                 ->where('estado', 1)
                 ->latest()
                 ->get();

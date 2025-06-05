@@ -20,39 +20,39 @@
     <div class="container w-100 rounded p-4 mt-3">
         <!--Proveedor-->
         <div class="row mb-2">
-            <div class="col-sm-4">
+            <div class="col-6 col-sm-4">
                 <div class="input-group mb-3">
                     <span class="input-group-text"><i class="fa-solid fa-user-group"></i></span>
                     <input disabled type="text" class="form-control" value="Proveedor: ">
                 </div>
             </div>
-            <div class="col-sm-8">
+            <div class="col-6 col-sm-8">
                 <input disabled type="text" class="form-control" value="{{$compra->proveedore->persona->razon_social}}">
             </div>
         </div>
 
         <!--Fecha-->
         <div class="row mb-2">
-            <div class="col-sm-4">
+            <div class="col-6 col-sm-4">
                 <div class="input-group mb-3">
                     <span class="input-group-text"><i class="fa-solid fa-calendar-days"></i></span>
                     <input disabled type="text" class="form-control" value="Fecha: ">
                 </div>
             </div>
-            <div class="col-sm-8">
+            <div class="col-6 col-sm-8">
                 <input disabled type="text" class="form-control" value="{{\Carbon\Carbon::parse($compra->fecha_hora)->format('d-m-Y')}}">
             </div>
         </div>
 
         <!--Hora-->
         <div class="row mb-2">
-            <div class="col-sm-4">
+            <div class="col-6 col-sm-4">
                 <div class="input-group mb-3">
                     <span class="input-group-text"><i class="fa-solid fa-clock"></i></span>
                     <input disabled type="text" class="form-control" value="Hora: ">
                 </div>
             </div>
-            <div class="col-sm-8">
+            <div class="col-6 col-sm-8">
                 <input disabled type="text" class="form-control" value="{{ \Carbon\Carbon::parse($compra->fecha_hora)->format('H:i')}}">
             </div>
         </div>

@@ -20,51 +20,51 @@
     <div class="container w-100 rounded p-4 mt-3">
         <!--Cliente-->
         <div class="row mb-2">
-            <div class="col-sm-4">
+            <div class="col-6 col-sm-4">
                 <div class="input-group mb-3">
                     <span class="input-group-text"><i class="fa-solid fa-user-tie"></i></span>
                     <input disabled type="text" class="form-control" value="Cliente: ">
                 </div>
             </div>
-            <div class="col-sm-8">
+            <div class="col-6 col-sm-8">
                 <input disabled type="text" class="form-control" value="{{$venta->cliente->persona->razon_social}}">
             </div>
         </div>
          <!--Usuario-->
         <div class="row mb-2">
-            <div class="col-sm-4">
+            <div class="col-6 col-sm-4">
                 <div class="input-group mb-3">
                     <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
                     <input disabled type="text" class="form-control" value="Vendedor: ">
                 </div>
             </div>
-            <div class="col-sm-8">
+            <div class="col-6 col-sm-8">
                 <input disabled type="text" class="form-control" value="{{$venta->user->name}}">
             </div>
         </div>
 
         <!--Fecha-->
         <div class="row mb-2">
-            <div class="col-sm-4">
+            <div class="col-6 col-sm-4">
                 <div class="input-group mb-3">
                     <span class="input-group-text"><i class="fa-solid fa-calendar-days"></i></span>
                     <input disabled type="text" class="form-control" value="Fecha: ">
                 </div>
             </div>
-            <div class="col-sm-8">
+            <div class="col-6 col-sm-8">
                 <input disabled type="text" class="form-control" value="{{\Carbon\Carbon::parse($venta->fecha_hora)->format('d-m-Y')}}">
             </div>
         </div>
 
         <!--Hora-->
         <div class="row mb-2">
-            <div class="col-sm-4">
+            <div class="col-6 col-sm-4">
                 <div class="input-group mb-3">
                     <span class="input-group-text"><i class="fa-solid fa-clock"></i></span>
                     <input disabled type="text" class="form-control" value="Hora: ">
                 </div>
             </div>
-            <div class="col-sm-8">
+            <div class="col-6 col-sm-8">
                 <input disabled type="text" class="form-control" value="{{ \Carbon\Carbon::parse($venta->fecha_hora)->format('H:i')}}">
             </div>
         </div>
