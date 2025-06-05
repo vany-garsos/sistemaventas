@@ -51,33 +51,6 @@
                             <small class="text-danger">{{'*'.$message}}</small>
                         @enderror
                     </div>
-                    <!--documento id-->
-                    <div class="col-md-6">
-                        <label for="documento_id" class="form-label">Tipo de documento</label>
-                        <select name="documento_id" id="documento_id" class="form-select">
-                            @foreach($documentos as $documento)
-                            @if ($proveedore->persona->documento_id == $proveedore->id)
-                                <option selected value="{{$documento->id}}" {{old('documento_id')==$documento->id ? 'selected' : ''}}>{{$documento->tipo_documento}}</option>
-                            @else
-                                 <option value="{{$documento->id}}" {{old('documento_id')==$documento->id ? 'selected' : ''}}>{{$documento->tipo_documento}}</option>
-                            @endif
-                            
-                            @endforeach
-                        </select>
-                        
-                        @error('documento_id')
-                            <small class="text-danger">{{'*'.$message}}</small>
-                        @enderror
-                    </div>
-
-                    <!--Numero de documento-->
-                     <div class="col-md-6">
-                        <label for="numero_documento" class="form-label">Numero de documento</label>
-                        <input type="text" name="numero_documento" id="numero_documento" class="form-control" value="{{ old('numero_documento', $proveedore->persona->numero_documento)}}">
-                        @error('numero_documento')
-                            <small class="text-danger">{{'*'.$message}}</small>
-                        @enderror
-                    </div>
                     
                     <div class="col-12 text-center">
                         <button type="submit" class="btn btn-primary">Guardar</button>

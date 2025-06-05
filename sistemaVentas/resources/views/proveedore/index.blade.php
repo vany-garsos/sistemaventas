@@ -46,13 +46,9 @@
                         <tr>
                             <th>Nombre</th>
                             <th>Direccion</th>
-                            <th>Tipo de documento</th>
-                            <th>Numero de documento</th>
                             <th>Tipo persona</th>
                             <th>Estado</th>
-                            @can('editar-categoria' || 'eliminar-categoria')
-                                <th>Acciones</th>
-                            @endcan
+                            <th>Acciones</th>
                         </tr>
                     </thead>
 
@@ -60,19 +56,17 @@
                         @foreach($proveedores as $proveedore)
                            <tr>
                                 <td>{{$proveedore->persona->razon_social}}</td>
-                                 <td>{{$proveedore->persona->direccion}}</td>
-                                  <td>{{$proveedore->persona->tipo_documento}}</td>
-                                   <td>{{$proveedore->persona->numero_documento}}</td>
-                                    <td>{{$proveedore->persona->tipo_persona}}</td>
-                                     <td>
-                                        @if ($proveedore->persona->estado==1)
+                                <td>{{$proveedore->persona->direccion}}</td>
+                                <td>{{$proveedore->persona->tipo_persona}}</td>
+                                <td>
+                                    @if ($proveedore->persona->estado==1)
                                      <span class="rounded bg-success text-white p-1">Activo</span>
                                     @else
                                         <span class="rounded bg-danger text-white p-1">Eliminado</span>
                                          
                                      @endif
                                     </td>
-                                     <td>
+                                    <td>
                                     <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                                         @can('crear-proveedores')
                                         <form action="{{ route('proveedores.edit', ['proveedore' => $proveedore]) }}"
