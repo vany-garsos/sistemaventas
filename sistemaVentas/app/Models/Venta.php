@@ -18,10 +18,6 @@ class Venta extends Model
         return $this->belongsTo(User::class);
     }
 
-      public function comprobante(){
-        return $this->belongsTo(Comprobante::class);
-    }
-
     public function productos(){
         return $this->belongsToMany(Producto::class)
         ->withTimestamps()->withPivot('cantidad', 'precio_venta', 'descuento');

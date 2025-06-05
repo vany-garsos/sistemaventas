@@ -26,7 +26,7 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        $clientes = Cliente::with('persona.documento')->get();
+        $clientes = Cliente::all();
         
         return view('clientes.index',compact('clientes'));
     }
@@ -36,8 +36,7 @@ class ClienteController extends Controller
      */
     public function create()
     {
-        $documentos = Documento::all();
-        return view('clientes.create', compact('documentos'));
+        return view('clientes.create');
     }
 
     /**
@@ -77,9 +76,8 @@ class ClienteController extends Controller
      */
     public function edit(Cliente $cliente)
     {
-        $cliente->load('persona.documento');
-        $documentos=Documento::all();
-        return view('clientes.edit', compact('cliente', 'documentos'));
+        $cliente->load('persona');
+        return view('clientes.edit', compact('cliente'));
     }
 
     /**
@@ -107,6 +105,7 @@ class ClienteController extends Controller
     {
         $message = '';
         $persona = Persona::find($id);
+
         if ($persona->estado == 1) {
             Persona::where('id', $persona->id)
                 ->update([

@@ -49,12 +49,9 @@
                         <tr>
                             <th>Nombre</th>
                             <th>Direccion</th>
-                            <th>Tipo de documento</th>
-                            <th>Numero de documento</th>
+                            <th>Tipo persona</th>
                             <th>Estado</th>
-                            @can('editar-cliente' || 'eliminar-cliente')
-                                <th>Acciones</th>
-                            @endcan
+                            <th>Acciones</th>
                         </tr>
                     </thead>
 
@@ -63,8 +60,6 @@
                             <tr>
                                 <td>{{ $cliente->persona->razon_social }}</td>
                                 <td>{{ $cliente->persona->direccion }}</td>
-                                <td>{{ $cliente->persona->tipo_documento }}</td>
-                                <td>{{ $cliente->persona->numero_documento }}</td>
                                 <td>{{ $cliente->persona->tipo_persona }}</td>
                                 <td>
                                     @if ($cliente->persona->estado == 1)
@@ -95,7 +90,7 @@
                                 </td>
                             </tr>
                             <!-- Modal eliminar cliente-->
-                            <div class="modal fade" id="confirmModal-{{ $cliente->persona->id }}" tabindex="-1"
+                            <div class="modal fade" id="confirmModal-{{ $cliente->id }}" tabindex="-1"
                                 aria-labelledby="confirmModal" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
